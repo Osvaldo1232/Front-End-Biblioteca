@@ -1,0 +1,93 @@
+<div class="modal-container">
+  <!-- Botón cerrar (X) -->
+  <ion-button 
+    fill="clear" 
+    class="btn-cerrar" 
+    (click)="cerrarModal()"
+  >
+    <ion-icon slot="icon-only" name="close"></ion-icon>
+  </ion-button>
+
+  <!-- Título -->
+  <h2 class="modal-titulo">Registrar Libro</h2>
+
+  <!-- Formulario -->
+  <form class="formulario">
+    <!-- Título -->
+    <div class="form-group">
+      <ion-input
+        [(ngModel)]="libro.titulo"
+        name="titulo"
+        type="text"
+        placeholder="Título"
+        class="custom-input"
+      ></ion-input>
+    </div>
+
+    <!-- Autores -->
+    <div class="form-group">
+      <ion-input
+        [(ngModel)]="libro.autores"
+        name="autores"
+        type="text"
+        placeholder="Autores"
+        class="custom-input"
+      ></ion-input>
+    </div>
+
+    <!-- Año de Publicación -->
+    <div class="form-group">
+      <ion-input
+        [(ngModel)]="libro.anioPublicacion"
+        name="anioPublicacion"
+        type="number"
+        placeholder="Año de Publicación"
+        class="custom-input"
+        min="1000"
+        [max]="currentYear"
+      ></ion-input>
+    </div>
+
+    <!-- Editorial -->
+    <div class="form-group">
+      <ion-input
+        [(ngModel)]="libro.editorial"
+        name="editorial"
+        type="text"
+        placeholder="Editorial"
+        class="custom-input"
+      ></ion-input>
+    </div>
+
+    <!-- Copias Disponibles -->
+    <div class="form-group">
+      <ion-input
+        [(ngModel)]="libro.copiasDisponibles"
+        name="copiasDisponibles"
+        type="number"
+        placeholder="Copias Disponibles"
+        class="custom-input"
+        min="0"
+      ></ion-input>
+    </div>
+
+    <!-- Botones -->
+    <div class="botones-container">
+      <ion-button
+        fill="outline"
+        class="btn-cancelar"
+        (click)="cerrarModal()"
+      >
+        Cancelar
+      </ion-button>
+
+      <ion-button
+        fill="solid"
+        class="btn-aceptar"
+        (click)="aceptar()"
+      >
+        Aceptar
+      </ion-button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,43 @@
+<ion-content class="fondo">
+  <div class="contenedor">
+    <h1 class="titulo">LIBROS REGISTRADOS</h1>
+
+    <div class="barra-busqueda">
+      <ion-input placeholder="Buscar libro..." class="input-buscar"></ion-input>
+      <ion-button >Buscar</ion-button>
+      <ion-button  >Limpiar</ion-button>
+      <ion-button   (click)="nuevoLibro()">+ Nuevo</ion-button>
+    </div>
+
+    <div class="tabla-contenedor">
+      <table>
+        <thead>
+          <tr>
+            <th>TITULO</th>
+            <th>AUTOR(ES)</th>
+            <th>AÑO PUBLICACIÒN</th>
+            <th>EDITORIAL</th>
+            <th>DISPONIBILIDAD</th>
+            <th>ESTATUS</th>
+            <th>ACCIÓN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let e of libros; let i = index" [class.par]="i % 2 === 0">
+            <td>{{ e.titulo }}</td>
+            <td>{{ e.autor }}</td>
+            <td>{{ e.anoPublicacion }}</td>
+            <td>{{ e.editorial }}</td>
+            <td>{{ e.disponibles }}</td>
+            <td>{{ e.estatus }}</td>
+             <td class="acciones">
+          <!-- Íconos de Ionic -->
+          <ion-icon name="create-outline" style="cursor:pointer; margin-right: 10px;"></ion-icon>
+          <ion-icon name="trash-outline"  style="cursor:pointer;"></ion-icon>
+        </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ion-content>

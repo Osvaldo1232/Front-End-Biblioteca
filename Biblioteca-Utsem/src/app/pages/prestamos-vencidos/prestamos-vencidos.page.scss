@@ -1,0 +1,232 @@
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.titulo-principal {
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 3px;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  text-align: left;
+  font-family: 'Georgia', serif;
+}
+
+.filtros-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .filtro-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .filtro-label {
+      font-size: 0.9rem;
+      color: #2c3e50;
+      font-weight: 500;
+    }
+
+    .custom-input {
+      --background: #f5f5f5;
+      --padding-start: 12px;
+      --padding-end: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      min-height: 42px;
+    }
+
+    .custom-select {
+      --background: #f5f5f5;
+      --padding-start: 12px;
+      --padding-end: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      min-height: 42px;
+    }
+  }
+
+  .boton-buscar-container {
+    display: flex;
+    align-items: flex-end;
+
+    .btn-buscar {
+      --background: #AAC5A8;
+      --background-hover: #9ab59a;
+      --background-activated: #8aa588;
+      --border-radius: 8px;
+      height: 42px;
+      width: 100%;
+      text-transform: none;
+      font-weight: 400;
+      
+      &:hover {
+        --background: #9ab59a;
+      }
+    }
+  }
+}
+
+.prestamos-grid {
+  padding: 0;
+}
+
+.prestamo-card {
+  background: linear-gradient(135deg, #c89999 0%, #b88888 100%);
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  ion-card-content {
+    padding: 24px;
+  }
+}
+
+.libro-titulo {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: #1a1a1a;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+  font-family: 'Georgia', serif;
+  letter-spacing: 0.5px;
+}
+
+.separador {
+  height: 2px;
+  background-color: #1a1a1a;
+  margin: 15px 0 20px 0;
+  width: 100%;
+}
+
+.info-prestamo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #2c2c2c;
+    line-height: 1.6;
+
+    strong {
+      font-weight: 600;
+      margin-right: 4px;
+    }
+  }
+}
+
+.no-resultados {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  font-size: 1.1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .titulo-principal {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+  }
+
+  .filtros-container {
+    grid-template-columns: 1fr;
+    padding: 20px;
+
+    .boton-buscar-container {
+      .btn-buscar {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .filtros-container {
+    grid-template-columns: repeat(2, 1fr);
+    
+    .boton-buscar-container {
+      grid-column: span 2;
+    }
+  }
+}
+
+@media (min-width: 1025px) {
+  .filtros-container {
+    grid-template-columns: repeat(5, 1fr);
+    
+    .boton-buscar-container {
+      grid-column: 5;
+    }
+  }
+}
+
+// Tema oscuro
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: #1a1a1a;
+  }
+
+  .titulo-principal {
+    color: #e0e0e0;
+  }
+
+  .filtros-container {
+    background: #2c2c2c;
+    
+    .filtro-label {
+      color: #e0e0e0;
+    }
+
+    .custom-input,
+    .custom-select {
+      --background: #3a3a3a;
+      border-color: #555;
+      color: #e0e0e0;
+    }
+  }
+
+  .prestamo-card {
+    background: linear-gradient(135deg, #a07878 0%, #906868 100%);
+  }
+
+  .libro-titulo {
+    color: #f0f0f0;
+  }
+
+  .separador {
+    background-color: #f0f0f0;
+  }
+
+  .info-prestamo p {
+    color: #e8e8e8;
+  }
+
+  .no-resultados {
+    background: #2c2c2c;
+    color: #999;
+  }
+}

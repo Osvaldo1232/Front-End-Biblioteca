@@ -1,26 +1,42 @@
 <ion-content fullscreen>
-  <div class="login-container">
-    <!-- Imagen a la izquierda -->
-    <div class="login-image">
-      <img src="assets/biblioteca.jpg" alt="Biblioteca">
+  <!-- Franja superior -->
+  <header class="top-bar">
+    <div class="top-bar-inner">
+      <img src="assets/biblioteca.jpg" alt="UTSEM Logo" class="brand-logo" />
+      <div class="brand-text">
+        <div class="brand-acronym">EDOMEX</div>
+        <div class="brand-name">Universidad Tecnológica del Sur del Estado de México</div>
+      </div>
     </div>
+  </header>
 
-    <!-- Formulario de login -->
-    <div class="login-form">
-      <h2>Iniciar Sesión</h2>
-      <form (ngSubmit)="login()">
-        <ion-item>
-          <ion-label position="floating">Usuario</ion-label>
-          <ion-input type="text" [(ngModel)]="usuario" name="usuario" required></ion-input>
-        </ion-item>
+  <!-- Contenedor centrado -->
+  <div class="center-wrapper">
+    <div class="login-container">
+      <!-- Lado izquierdo -->
+      <div class="login-image">
+        <h1>Bienvenidos<br>Biblioteca Escolar</h1>
+        <img src="assets/biblioteca.jpg" alt="Biblioteca" />
+      </div>
 
-        <ion-item>
-          <ion-label position="floating">Contraseña</ion-label>
-          <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
-        </ion-item>
+      <!-- Lado derecho -->
+      <div class="login-form">
+        <h2>Iniciar Sesión</h2>
+        <form (ngSubmit)="login()">
+          <ion-item>
+            
+            <ion-label position="floating">Usuario</ion-label>
+            <ion-input type="text" [(ngModel)]="usuario" name="usuario" required></ion-input>
+          </ion-item>
 
-        <ion-button expand="block" type="submit" class="btn-login">Ingresar</ion-button>
-      </form>
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+          </ion-item>
+
+          <ion-button expand="block" type="submit" class="btn-login">Continuar</ion-button>
+        </form>
+      </div>
     </div>
   </div>
 </ion-content>

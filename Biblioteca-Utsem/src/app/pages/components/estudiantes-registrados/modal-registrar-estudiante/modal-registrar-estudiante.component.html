@@ -1,0 +1,83 @@
+<div class="modal-container">
+  <!-- Botón cerrar (X) -->
+  <ion-button 
+    fill="clear" 
+    class="btn-cerrar" 
+    (click)="cerrarModal()"
+  >
+    <ion-icon slot="icon-only" name="close"></ion-icon>
+  </ion-button>
+
+  <!-- Título -->
+  <h2 class="modal-titulo">Registrar Estudiante</h2>
+
+  <!-- Formulario -->
+  <form class="formulario">
+    <!-- Matricula -->
+    <div class="form-group">
+      <ion-input
+        [(ngModel)]="estudiante.matricula"
+        name="matricula"
+        type="text"
+        placeholder="Matricula"
+        class="custom-input"
+      ></ion-input>
+    </div>
+
+    <!-- Nombre -->
+    <div class="form-group">
+      <ion-input
+        [(ngModel)]="estudiante.nombre"
+        name="nombre"
+        type="text"
+        placeholder="Nombre"
+        class="custom-input"
+      ></ion-input>
+    </div>
+
+    <!-- Apellidos -->
+    <div class="form-group">
+      <ion-input
+        [(ngModel)]="estudiante.apellidos"
+        name="apellidos"
+        type="text"
+        placeholder="Apellidos"
+        class="custom-input"
+      ></ion-input>
+    </div>
+
+    <!-- Carrera -->
+    <div class="form-group">
+      <ion-select
+        [(ngModel)]="estudiante.carrera"
+        name="carrera"
+        interface="popover"
+        placeholder="Carrera"
+        class="custom-select"
+      >
+        <ion-select-option *ngFor="let carrera of carreras" [value]="carrera">
+          {{ carrera }}
+        </ion-select-option>
+      </ion-select>
+    </div>
+
+    <!-- Botones -->
+    <div class="botones-container">
+      <ion-button
+        fill="outline"
+        class="btn-cancelar"
+        (click)="cerrarModal()"
+      >
+        Cancelar
+      </ion-button>
+
+      <ion-button
+        fill="solid"
+        class="btn-aceptar"
+        (click)="aceptar()"
+      >
+        Aceptar
+      </ion-button>
+    </div>
+  </form>
+</div>

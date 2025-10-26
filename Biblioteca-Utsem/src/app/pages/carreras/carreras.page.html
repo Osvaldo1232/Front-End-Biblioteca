@@ -1,0 +1,76 @@
+<ion-content class="ion-padding">
+  <div class="container">
+    <h1 class="titulo-principal">CARRERAS REGISTRADOS</h1>
+
+    <!-- Barra de búsqueda -->
+    <div class="barra-busqueda">
+      <ion-searchbar
+        [(ngModel)]="busqueda"
+        (ionInput)="buscarCarrera()"
+        placeholder="Buscar carrera..."
+        class="custom-searchbar"
+      ></ion-searchbar>
+
+      <ion-button fill="solid"  (click)="buscarCarrera()">
+        Buscar
+      </ion-button>
+
+      <ion-button fill="solid"  (click)="limpiarBusqueda()">
+        Limpiar
+      </ion-button>
+
+      <ion-button fill="solid"  (click)="agregarNueva()">
+        + Nuevo
+      </ion-button>
+    </div>
+
+    <!-- Grid de carreras -->
+    <ion-grid class="carreras-grid">
+      <ion-row>
+        <ion-col size="12" size-md="6" size-lg="4" *ngFor="let carrera of carrerasFiltradas">
+          <ion-card class="carrera-card">
+            <ion-card-content>
+              <h2 class="carrera-titulo">{{ carrera.nombre }}</h2>
+              
+              <div class="separador"></div>
+
+              <div class="estado-toggle">
+                <span class="estado-label">Estatus: {{ carrera.activo ? 'Activo' : 'Inactivo' }}</span>
+                <ion-toggle
+                  [(ngModel)]="carrera.activo"
+                  (ionChange)="cambiarEstado(carrera)"
+                  color="success"
+                ></ion-toggle>
+              </div>
+
+              <div class="botones-accion">
+                <ion-button
+                  fill="solid"
+                  
+                  class="btn-accion"
+                  (click)="eliminarCarrera(carrera)"
+                >
+                  Eliminar
+                </ion-button>
+
+                <ion-button
+                  fill="solid"
+                  
+                  class="btn-accion"
+                  (click)="editarCarrera(carrera)"
+                >
+                  EDITAR
+                </ion-button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Mensaje cuando no hay resultados -->
+    <div *ngIf="carrerasFiltradas.length === 0" class="no-resultados">
+      <p>No se encontraron carreras</p>
+    </div>
+  </div>
+</ion-content>

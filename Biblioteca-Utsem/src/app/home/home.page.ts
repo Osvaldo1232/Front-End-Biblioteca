@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 @Component({
   selector: 'app-home',
@@ -18,12 +19,11 @@ export class HomePage {
   usuario: string = '';
   password: string = '';
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   login() {
     console.log('Usuario:', this.usuario, 'Contraseña:', this.password);
-    // Aquí llamas a tu servicio de autenticación
-    // Ejemplo: this.authService.login(this.usuario, this.password)
+    this.router.navigate(['/inicio']);
   }
 
   

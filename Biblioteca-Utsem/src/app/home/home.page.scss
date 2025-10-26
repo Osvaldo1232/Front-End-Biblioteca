@@ -1,55 +1,187 @@
-.login-container {
+ion-content {
+  --background: #f3f3f3; /* fondo gris claro general */
   display: flex;
+  flex-direction: column;
   height: 100%;
-  flex-direction: row;
 }
 
-/* Imagen a la izquierda */
-.login-image {
-  flex: 1;
+/* === ENCABEZADO === */
+.top-bar {
+  width: 100%;
+  background: #e6f0e3;
+  padding: 10px 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 2;
+}
+
+.top-bar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: #f0f0f0;
-
-  img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
+  gap: 10px;
+  padding: 0 20px;
 }
 
-/* Formulario a la derecha */
-.login-form {
+.brand-logo {
+  height: 55px;
+  width: auto;
+  object-fit: contain;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-acronym {
+  font-weight: 800;
+  color: #84a482;
+  font-size: 22px;
+}
+
+.brand-name {
+  color: #9aaea0;
+  font-size: 14px;
+  margin-top: -4px;
+}
+
+/* === CUERPO CENTRAL === */
+.center-wrapper {
   flex: 1;
-  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+}
+
+/* === CONTENEDOR LOGIN === */
+.login-container {
+  display: flex;
+  flex-direction: row;
+  width: 85%;
+  max-width: 1000px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: #ffffff; /* blanco solo para la parte derecha */
+}
+
+/* === LADO IZQUIERDO === */
+.login-image {
+  flex: 1;
+  background: #f3f3f3; /* mismo color del fondo, no blanco */
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #530909;
-  }
-
-  .btn-login {
-    background-color: #530909;
-    color: white;
-
-    &:hover {
-      background-color: #3e0606;
-    }
-  }
+  align-items: center;
+  padding: 40px 30px;
+  text-align: center;
 }
 
-/* Responsivo para móviles */
-@media (max-width: 768px) {
+.login-image h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #8aaf87;
+  margin-bottom: 25px;
+  line-height: 1.3;
+}
+
+.login-image img {
+  width: 80%;
+  max-width: 320px;
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* === LADO DERECHO === */
+.login-form {
+  flex: 1;
+  background: #ffffff;
+  padding: 50px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-form h2 {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+/* Campos */
+ion-item {
+  --background: #f2faf2;
+  --border-radius: 8px;
+  margin-bottom: 18px;
+}
+
+ion-label {
+  color: #666;
+}
+
+ion-input {
+  color: #222;
+}
+
+/* Botón */
+.btn-login {
+  --background: #89a987;
+  --background-hover: #7ca67a;
+  --border-radius: 10px;
+  --color: #fff;
+  font-weight: 500;
+  margin-top: 15px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
   .login-container {
     flex-direction: column;
+    width: 90%;
+  }
+
+  .login-form {
+    border-top: 1px solid #eee;
+    border-left: none;
+    padding: 30px;
   }
 
   .login-image {
-    height: 200px;
+    padding: 30px;
+  }
+}
+
+/* Para pantallas pequeñas: evitar que el login tape el header */
+@media (max-width: 600px) {
+  ion-content {
+    overflow-y: auto;
+  }
+
+  .center-wrapper {
+    align-items: flex-start;
+    margin-top: 80px; /* deja espacio para el logo */
+  }
+
+  .top-bar-inner {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .brand-logo {
+    height: 45px;
+  }
+
+  .brand-name {
+    font-size: 12px;
+  }
+
+  .login-container {
+    width: 95%;
+    box-shadow: none;
   }
 }

@@ -1,0 +1,206 @@
+/* Reset general */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+/* ======================= */
+/*        HEADER           */
+/* ======================= */
+header {
+  width: 100%;
+  height: 60px;
+  background-color: beige;
+  color: #2d0404;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  font-size: 18px;
+  font-weight: bold;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Sección izquierda del header */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-text {
+  line-height: 1;
+}
+
+/* Botón ☰ */
+.toggle-button {
+  background: none;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  color: #2d0404;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.toggle-button:hover {
+  transform: scale(1.1);
+}
+
+/* Imagen centrada */
+.header-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.logo-utsem {
+  height: 45px;
+  object-fit: contain;
+}
+
+/* Texto del usuario */
+.header-right {
+  font-weight: normal;
+  font-size: 16px;
+}
+
+/* ======================= */
+/*        LAYOUT           */
+/* ======================= */
+.layout {
+  display: flex;
+  height: calc(100vh - 60px);
+  margin-top: 60px;
+}
+
+/* ======================= */
+/*        SIDEBAR          */
+/* ======================= */
+.sidebar {
+  width: 250px;
+  background-color: #2d0404;
+  color: white;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li a {
+  display: block;
+  padding: 15px 20px;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  transition: background 0.2s ease;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+  background-color: #530909;
+}
+
+/* ======================= */
+/*     BOTÓN FLOTANTE      */
+/* ======================= */
+.floating-button {
+  position: fixed;
+  top: 70px;
+  left: 20px;
+  z-index: 1100;
+  background-color: #530909;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 4px;
+}
+
+/* ======================= */
+/*     CONTENIDO PRINCIPAL */
+/* ======================= */
+.main-content {
+  flex: 1;
+  background-color: #f4f4f4;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* ======================= */
+/*     PERFIL SIDEBAR      */
+/* ======================= */
+.profile-section {
+  text-align: center;
+  padding: 30px 10px 20px;
+}
+
+.profile-image {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
+}
+
+.profile-name {
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 4px 0 0;
+}
+
+.profile-role {
+  color: #ccc;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ======================= */
+/*     RESPONSIVE DESIGN   */
+/* ======================= */
+@media (max-width: 768px) {
+  header {
+    font-size: 16px;
+    padding: 0 10px;
+  }
+
+  .header-right {
+    font-size: 14px;
+  }
+
+  .sidebar {
+    position: fixed;
+    height: 100vh;
+    top: 60px;
+    left: 0;
+    transform: translateX(-100%);
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+
+  .layout {
+    flex-direction: column;
+  }
+}

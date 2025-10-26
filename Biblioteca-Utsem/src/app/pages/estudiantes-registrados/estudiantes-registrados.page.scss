@@ -1,0 +1,269 @@
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.titulo-principal {
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 3px;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  text-align: left;
+  font-family: 'Georgia', serif;
+}
+
+.barra-busqueda {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .custom-searchbar {
+    flex: 1;
+    min-width: 250px;
+    --background: #e8e8e8;
+    --border-radius: 8px;
+  }
+
+  ion-button {
+    --background: #AAC5A8;
+    --background-hover: #9ab59a;
+    --background-activated: #8aa588;
+    --border-radius: 8px;
+    height: 44px;
+    text-transform: none;
+    font-weight: 400;
+    
+    &:hover {
+      --background: #9ab59a;
+    }
+  }
+}
+
+.tabla-container {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-estudiantes {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+
+  thead {
+    background-color: #e0e0e0;
+    
+    tr {
+      th {
+        padding: 16px 12px;
+        text-align: left;
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+        border-bottom: 2px solid #d0d0d0;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: #f9f9f9 !important;
+      }
+
+      &.fila-par {
+        background-color: #f5f5f5;
+      }
+
+      &.fila-impar {
+        background-color: #ffffff;
+      }
+
+      td {
+        padding: 14px 12px;
+        color: #333;
+        border-bottom: 1px solid #e8e8e8;
+        vertical-align: middle;
+
+        &.columna-acciones {
+          text-align: center;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}
+
+.btn-accion {
+  --color: #333;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  margin: 0 2px;
+
+  ion-icon {
+    font-size: 20px;
+  }
+
+  &:hover {
+    --color: #000;
+  }
+
+  &.btn-eliminar {
+    --color: #d32f2f;
+
+    &:hover {
+      --color: #b71c1c;
+    }
+  }
+}
+
+.no-resultados {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  font-size: 1.1rem;
+
+  p {
+    margin: 0;
+  }
+}
+
+// Responsive - Tabla horizontal scrollable en móviles
+@media (max-width: 768px) {
+  .titulo-principal {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+  }
+
+  .barra-busqueda {
+    flex-direction: column;
+    
+    .custom-searchbar {
+      width: 100%;
+    }
+
+    ion-button {
+      width: 100%;
+    }
+  }
+
+  .tabla-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tabla-estudiantes {
+    min-width: 800px;
+    font-size: 0.85rem;
+
+    thead tr th {
+      padding: 12px 8px;
+      font-size: 0.8rem;
+    }
+
+    tbody tr td {
+      padding: 10px 8px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .tabla-estudiantes {
+    font-size: 0.8rem;
+
+    thead tr th {
+      padding: 10px 6px;
+      font-size: 0.75rem;
+    }
+
+    tbody tr td {
+      padding: 8px 6px;
+    }
+
+    .btn-accion ion-icon {
+      font-size: 18px;
+    }
+  }
+}
+
+// Tema oscuro
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: #1a1a1a;
+  }
+
+  .titulo-principal {
+    color: #e0e0e0;
+  }
+
+  .barra-busqueda {
+    .custom-searchbar {
+      --background: #2c2c2c;
+    }
+  }
+
+  .tabla-container {
+    background: #2c2c2c;
+  }
+
+  .tabla-estudiantes {
+    thead {
+      background-color: #3a3a3a;
+      
+      tr th {
+        color: #e0e0e0;
+        border-bottom-color: #555;
+      }
+    }
+
+    tbody {
+      tr {
+        &:hover {
+          background-color: #3a3a3a !important;
+        }
+
+        &.fila-par {
+          background-color: #2c2c2c;
+        }
+
+        &.fila-impar {
+          background-color: #333;
+        }
+
+        td {
+          color: #d0d0d0;
+          border-bottom-color: #444;
+        }
+      }
+    }
+  }
+
+  .btn-accion {
+    --color: #d0d0d0;
+
+    &:hover {
+      --color: #fff;
+    }
+
+    &.btn-eliminar {
+      --color: #ef5350;
+
+      &:hover {
+        --color: #e53935;
+      }
+    }
+  }
+
+  .no-resultados {
+    color: #999;
+  }
+}

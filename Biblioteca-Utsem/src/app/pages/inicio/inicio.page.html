@@ -1,0 +1,40 @@
+<header>
+  <div class="header-left">
+    <span class="menu-text">Panel de Control</span>
+    <button class="toggle-button" (click)="toggleSidebar()">☰</button>
+  </div>
+
+  <div class="header-center">
+    <img src="assets/usuario.jpg" alt="UTSEM" class="logo-utsem">
+  </div>
+
+  <div class="header-right">
+    Erika Jaimes Soto
+  </div>
+</header>
+
+
+<div class="layout">
+  <nav class="sidebar" *ngIf="sidebarVisible"> 
+    <div class="profile-section">
+      <img src="assets/usuario.jpg" alt="Perfil" class="profile-image">
+      <p class="profile-name">Erika</p>
+      <p class="profile-role">Administrador</p>
+    </div>
+
+    <ul>
+      <li><a routerLink="/inicio/dashboard" routerLinkActive="active">Inicio</a></li>
+      <li><a routerLink="/inicio/estudiantes-registrados" routerLinkActive="active">Alumnos</a></li>
+      <li><a routerLink="/inicio/carreras" routerLinkActive="active">Carreras</a></li>
+      <li><a routerLink="/inicio/libros" routerLinkActive="active">Libros</a></li> 
+      <li><a routerLink="/inicio/prestamos" routerLinkActive="active">Prestamos</a></li>
+      <li><a routerLink="/inicio/prestamos-vencidos" routerLinkActive="active">Prestamos Vencidos</a></li>
+      <li><a (click)="logout()">Salir</a></li>
+    </ul>
+  </nav>
+
+  <div class="main-content">
+    <!-- Aquí se cargan todas las páginas hijas -->
+    <router-outlet></router-outlet>
+  </div>
+</div>

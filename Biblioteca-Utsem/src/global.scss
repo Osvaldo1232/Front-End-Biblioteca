@@ -35,3 +35,68 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+
+// Agregar esto en tu archivo global.scss o en el styles de angular.json
+
+.modal-registrar-estudiante {
+  --width: 500px;
+  --height: auto;
+  --border-radius: 12px;
+
+  .modal-wrapper {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Para móviles
+@media (max-width: 576px) {
+  .modal-registrar-estudiante {
+    --width: 95%;
+    --height: auto;
+  }
+}
+
+
+.modal-registrar-libro {
+  --width: 500px;
+  --height: auto;
+  --border-radius: 12px;
+
+  .modal-wrapper {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Para móviles
+@media (max-width: 576px) {
+  .modal-registrar-libro {
+    --width: 95%;
+    --height: auto;
+  }
+}
+
+
+.modal-registrar-carrera {
+  --width: 500px;
+  --height: auto;
+  --border-radius: 12px;
+
+  .modal-wrapper {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Para móviles
+@media (max-width: 576px) {
+  .modal-registrar-carrera {
+    --width: 95%;
+    --height: auto;
+  }
+}

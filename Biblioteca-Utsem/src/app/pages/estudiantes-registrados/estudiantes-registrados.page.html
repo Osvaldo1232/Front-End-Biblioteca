@@ -1,0 +1,78 @@
+
+
+<ion-content class="ion-padding">
+  <div class="container">
+    <h1 class="titulo-principal">ESTUDIANTES REGISTRADOS</h1>
+
+    <!-- Barra de búsqueda -->
+    <div class="barra-busqueda">
+      <ion-searchbar
+        [(ngModel)]="busqueda"
+        (ionInput)="buscarEstudiante()"
+        placeholder="Buscar estudiante..."
+        class="custom-searchbar"
+      ></ion-searchbar>
+
+      <ion-button fill="solid"  (click)="buscarEstudiante()">
+        Buscar
+      </ion-button>
+
+      <ion-button fill="solid"  (click)="limpiarBusqueda()">
+        Limpiar
+      </ion-button>
+
+      <ion-button fill="solid"  (click)="agregarNuevo()">
+        + Nuevo
+      </ion-button>
+    </div>
+
+    <!-- Tabla de estudiantes -->
+    <div class="tabla-container">
+      <table class="tabla-estudiantes">
+        <thead>
+          <tr>
+            <th>MATRICULA</th>
+            <th>NOMBRE</th>
+            <th>APELLIDOS</th>
+            <th>CARRERA</th>
+            <th>ACCION</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let estudiante of estudiantesFiltrados; let i = index" 
+              [class.fila-par]="i % 2 === 0"
+              [class.fila-impar]="i % 2 !== 0">
+            <td>{{ estudiante.matricula }}</td>
+            <td>{{ estudiante.nombre }}</td>
+            <td>{{ estudiante.apellidos }}</td>
+            <td>{{ estudiante.carrera }}</td>
+            <td class="columna-acciones">
+              <ion-button 
+                fill="clear" 
+                size="small" 
+                (click)="editarEstudiante(estudiante)"
+                class="btn-accion"
+              >
+              
+                <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+              </ion-button>
+              <ion-button 
+                fill="clear" 
+                size="small" 
+                (click)="eliminarEstudiante(estudiante)"
+                class="btn-accion btn-eliminar"
+              >
+                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+              </ion-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Mensaje cuando no hay resultados -->
+      <div *ngIf="estudiantesFiltrados.length === 0" class="no-resultados">
+        <p>No se encontraron estudiantes</p>
+      </div>
+    </div>
+  </div>
+</ion-content>
