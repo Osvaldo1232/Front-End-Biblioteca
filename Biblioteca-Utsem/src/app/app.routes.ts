@@ -21,6 +21,17 @@ export const routes: Routes = [
       { path: 'libros', loadComponent: () => import('./pages/libros/libros.page').then(m => m.LibrosPage) },
       { path: 'prestamos', loadComponent: () => import('./pages/prestamos/prestamos.page').then(m => m.PrestamosPage) },
       { path: 'prestamos-vencidos', loadComponent: () => import('./pages/prestamos-vencidos/prestamos-vencidos.page').then(m => m.PrestamosVencidosPage) },
+      { 
+    path: 'categorias', 
+    loadComponent: () => import('./pages/categorias-component/categorias-component.component')
+      .then(m => m.CategoriasComponentComponent) 
+  },
+
+  { 
+    path: 'autores', 
+    loadComponent: () => import('./pages/autores-component/autores-component.component')
+      .then(m => m.AutoresComponentComponent) 
+  }
     ]
   }
 ];

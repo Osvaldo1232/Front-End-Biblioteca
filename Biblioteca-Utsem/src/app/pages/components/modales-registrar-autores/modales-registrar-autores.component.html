@@ -1,0 +1,78 @@
+<div class="modal-container">
+  <!-- Botón cerrar -->
+  <ion-button fill="clear" class="btn-cerrar" (click)="cerrarModal()">
+    <ion-icon slot="icon-only" name="close"></ion-icon>
+  </ion-button>
+
+  <!-- Título -->
+  <h2 class="modal-titulo">Registrar Autor</h2>
+
+  <!-- Formulario -->
+  <form class="formulario">
+    <!-- ID -->
+    <div class="form-group">
+      <ion-input
+        [(ngModel)]="autor.id"
+        name="id"
+        type="text"
+        placeholder="ID (UUID o Identificador)"
+        class="custom-input"
+      ></ion-input>
+    </div>
+
+    <!-- Nombre -->
+    <div class="form-group">
+      <ion-input
+        [(ngModel)]="autor.nombre"
+        name="nombre"
+        type="text"
+        placeholder="Nombre"
+        class="custom-input"
+      ></ion-input>
+    </div>
+
+    <!-- Apellido Paterno -->
+    <div class="form-group">
+      <ion-input
+        [(ngModel)]="autor.apellidoPaterno"
+        name="apellidoPaterno"
+        type="text"
+        placeholder="Apellido Paterno"
+        class="custom-input"
+      ></ion-input>
+    </div>
+
+    <!-- Apellido Materno -->
+    <div class="form-group">
+      <ion-input
+        [(ngModel)]="autor.apellidoMaterno"
+        name="apellidoMaterno"
+        type="text"
+        placeholder="Apellido Materno"
+        class="custom-input"
+      ></ion-input>
+    </div>
+
+    <!-- Nacionalidad -->
+    <div class="form-group">
+      <ion-input
+        [(ngModel)]="autor.nacionalidad"
+        name="nacionalidad"
+        type="text"
+        placeholder="Nacionalidad"
+        class="custom-input"
+      ></ion-input>
+    </div>
+
+    <!-- Botones -->
+    <div class="botones-container">
+      <ion-button fill="outline" class="btn-cancelar" (click)="cerrarModal()">
+        Cancelar
+      </ion-button>
+
+      <ion-button fill="solid" class="btn-aceptar" (click)="aceptar()">
+        Aceptar
+      </ion-button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,163 @@
+.modal-container {
+  padding: 30px;
+  position: relative;
+  background: white;
+  min-height: 400px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-cerrar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  --color: #444;
+  z-index: 10;
+
+  ion-icon {
+    font-size: 26px;
+  }
+
+  &:hover {
+    --color: #000;
+  }
+}
+
+.modal-titulo {
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: #2c3e50;
+  margin: 0 0 30px 0;
+  font-family: 'Georgia', serif;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  width: 100%;
+
+  .custom-input {
+    --background: #f4f4f4;
+    --padding-start: 14px;
+    --padding-end: 14px;
+    --placeholder-color: #888;
+    --placeholder-opacity: 1;
+    --color: #222;
+    border-radius: 8px;
+    font-size: 1rem;
+    min-height: 50px;
+    border: 1.5px solid transparent;
+    transition: all 0.3s ease;
+
+    &:focus-within {
+      border-color: #a0a0a0;
+      --background: #fff;
+    }
+  }
+}
+
+.botones-container {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+  justify-content: flex-end;
+
+  ion-button {
+    font-weight: 500;
+    text-transform: none;
+    border-radius: 8px;
+    height: 44px;
+    min-width: 110px;
+  }
+
+  .btn-cancelar {
+    --border-color: #ccc;
+    --border-width: 1px;
+    --color: #333;
+    --background: transparent;
+    border: 1px solid #bbb;
+
+    &:hover {
+      background-color: #f0f0f0;
+      --color: #000;
+    }
+  }
+
+  .btn-aceptar {
+    --background: #4CAF50; /* verde visible */
+    --color: white;
+
+    &:hover {
+      --background: #45a049;
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .modal-container {
+    padding: 20px;
+  }
+
+  .modal-titulo {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .botones-container {
+    flex-direction: column;
+    gap: 10px;
+
+    ion-button {
+      width: 100%;
+    }
+  }
+}
+
+/* Tema oscuro */
+@media (prefers-color-scheme: dark) {
+  .modal-container {
+    background: #2c2c2c;
+    color: #eaeaea;
+  }
+
+  .modal-titulo {
+    color: #fff;
+  }
+
+  .form-group .custom-input {
+    --background: #3a3a3a;
+    --color: #fff;
+    --placeholder-color: #aaa;
+  }
+
+  .btn-cerrar {
+    --color: #ccc;
+
+    &:hover {
+      --color: #fff;
+    }
+  }
+
+  .btn-cancelar {
+    border-color: #555;
+    --color: #ddd;
+
+    &:hover {
+      background-color: #444;
+    }
+  }
+
+  .btn-aceptar {
+    --background: #6fc36f;
+    --color: #fff;
+
+    &:hover {
+      --background: #5eb55e;
+    }
+  }
+}

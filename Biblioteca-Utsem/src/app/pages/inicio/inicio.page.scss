@@ -1,4 +1,6 @@
-/* Reset general */
+/* ======================= */
+/*        RESET GENERAL     */
+/* ======================= */
 * {
   margin: 0;
   padding: 0;
@@ -8,10 +10,11 @@
 body, html {
   height: 100%;
   font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
 }
 
 /* ======================= */
-/*        HEADER           */
+/*          HEADER          */
 /* ======================= */
 header {
   width: 100%;
@@ -31,7 +34,6 @@ header {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Sección izquierda del header */
 .header-left {
   display: flex;
   align-items: center;
@@ -79,22 +81,25 @@ header {
 }
 
 /* ======================= */
-/*        LAYOUT           */
+/*          LAYOUT          */
 /* ======================= */
 .layout {
   display: flex;
   height: calc(100vh - 60px);
   margin-top: 60px;
+  overflow: hidden;
 }
 
 /* ======================= */
-/*        SIDEBAR          */
+/*          SIDEBAR         */
 /* ======================= */
 .sidebar {
   width: 250px;
   background-color: #2d0404;
   color: white;
   transition: transform 0.3s ease-in-out;
+  flex-shrink: 0;
+  height: calc(100vh - 60px);
 }
 
 .sidebar ul {
@@ -118,38 +123,12 @@ header {
 }
 
 /* ======================= */
-/*     BOTÓN FLOTANTE      */
-/* ======================= */
-.floating-button {
-  position: fixed;
-  top: 70px;
-  left: 20px;
-  z-index: 1100;
-  background-color: #530909;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 18px;
-  border-radius: 4px;
-}
-
-/* ======================= */
-/*     CONTENIDO PRINCIPAL */
-/* ======================= */
-.main-content {
-  flex: 1;
-  background-color: #f4f4f4;
-  padding: 20px;
-  overflow-y: auto;
-}
-
-/* ======================= */
-/*     PERFIL SIDEBAR      */
+/*     PERFIL EN SIDEBAR   */
 /* ======================= */
 .profile-section {
   text-align: center;
   padding: 30px 10px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .profile-image {
@@ -176,6 +155,46 @@ header {
 }
 
 /* ======================= */
+/*     CONTENIDO PRINCIPAL */
+/* ======================= */
+.main-content {
+  flex: 1;
+  background-color: #f4f4f4;
+  padding: 20px;
+  overflow-y: auto;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ======================= */
+/*     ESTADO: OCULTO       */
+/* ======================= */
+/* Oculta el sidebar en cualquier tamaño cuando sidebarVisible = false */
+.sidebar-hidden .sidebar {
+  transform: translateX(-100%);
+}
+
+.sidebar-hidden .main-content {
+  width: 100%;
+}
+
+/* ======================= */
+/*     BOTÓN FLOTANTE (opcional) */
+/* ======================= */
+.floating-button {
+  position: fixed;
+  top: 70px;
+  left: 20px;
+  z-index: 1100;
+  background-color: #530909;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 4px;
+}
+
+/* ======================= */
 /*     RESPONSIVE DESIGN   */
 /* ======================= */
 @media (max-width: 768px) {
@@ -188,19 +207,42 @@ header {
     font-size: 14px;
   }
 
+  /* Sidebar oculto por defecto en móviles */
   .sidebar {
     position: fixed;
     height: 100vh;
     top: 60px;
     left: 0;
     transform: translateX(-100%);
+    z-index: 1200;
   }
 
+  /* Cuando se active */
   .sidebar.show {
     transform: translateX(0);
   }
 
-  .layout {
-    flex-direction: column;
+  /* El contenido ocupa todo el ancho */
+  .main-content {
+    width: 100%;
+  }
+
+  /* Efecto overlay opcional */
+  .overlay {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .overlay.show {
+    opacity: 1;
+    pointer-events: auto;
   }
 }
