@@ -1,15 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicModule, ToastController , ModalController} from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { ModalesRegistrarAutoresComponent } from '../components/modales-registrar-autores/modales-registrar-autores.component';
-interface Autor {
-  id: string;
-  nombre: string;
-  apellidoPaterno: string;
-  apellidoMaterno: string;
-  nacionalidad: string;
-}
+import { SerivicosService } from 'src/app/Servicios/serivicos-service';
+import { Autor } from 'src/app/modelos/LoginResponse';
 
 @Component({
   selector: 'app-autores-component',
@@ -20,34 +15,46 @@ interface Autor {
 })
 export class AutoresComponentComponent implements OnInit {
   searchTerm: string = '';
-
-  autores: Autor[] = [
-    { id: 'A-001', nombre: 'Gabriel', apellidoPaterno: 'García', apellidoMaterno: 'Márquez', nacionalidad: 'Colombiana' },
-    { id: 'A-002', nombre: 'Isabel', apellidoPaterno: 'Allende', apellidoMaterno: '', nacionalidad: 'Chilena' },
-    { id: 'A-003', nombre: 'Julio', apellidoPaterno: 'Cortázar', apellidoMaterno: '', nacionalidad: 'Argentina' },
-    { id: 'A-004', nombre: 'Mario', apellidoPaterno: 'Vargas', apellidoMaterno: 'Llosa', nacionalidad: 'Peruana' },
-    { id: 'A-005', nombre: 'Laura', apellidoPaterno: 'Esquivel', apellidoMaterno: '', nacionalidad: 'Mexicana' },
-  ];
-
+  autores: Autor[] = [];
   filteredAutores: Autor[] = [];
 
-  constructor(private toastController: ToastController,  private modalController: ModalController,) {}
+  constructor(
+    private modalController: ModalController,
+    private toastController: ToastController,
+    private autoresService: SerivicosService
+  ) {}
 
   ngOnInit() {
-    this.filteredAutores = [...this.autores];
+    this.cargarAutores();
+  }
+
+  cargarAutores() {
+    this.autoresService.obtenerAutores().subscribe({
+      next: (data) => {
+        this.autores = data;
+        this.filteredAutores = [...data];
+      },
+      error: async () => {
+        const toast = await this.toastController.create({
+          message: 'Error al cargar los autores',
+          duration: 2000,
+          color: 'danger',
+        });
+        await toast.present();
+      },
+    });
   }
 
   buscar() {
-    const term = this.searchTerm.trim().toLowerCase();
-    if (term === '') {
+    if (this.searchTerm.trim() === '') {
       this.filteredAutores = [...this.autores];
     } else {
-      this.filteredAutores = this.autores.filter(
-        a =>
-          a.nombre.toLowerCase().includes(term) ||
-          a.apellidoPaterno.toLowerCase().includes(term) ||
-          a.apellidoMaterno.toLowerCase().includes(term) ||
-          a.nacionalidad.toLowerCase().includes(term)
+      const term = this.searchTerm.toLowerCase();
+      this.filteredAutores = this.autores.filter(a =>
+        a.nombre.toLowerCase().includes(term) ||
+        a.apellidoPaterno.toLowerCase().includes(term) ||
+        a.apellidoMaterno.toLowerCase().includes(term) ||
+        a.nacionalidad.toLowerCase().includes(term)
       );
     }
   }
@@ -57,39 +64,43 @@ export class AutoresComponentComponent implements OnInit {
     this.filteredAutores = [...this.autores];
   }
 
-  editarAutor(autor: Autor) {
-    console.log('Editar autor:', autor);
-  }
-
-  eliminarAutor(autor: Autor) {
-    console.log('Eliminar autor:', autor);
-  }
-
-async nuevoAutor() {
-  const modal = await this.modalController.create({
-    component: ModalesRegistrarAutoresComponent,
-    cssClass: 'modal-registrar-autor',
-    backdropDismiss: false
-  });
-
-  await modal.present();
-
-  const { data } = await modal.onWillDismiss();
-
-  if (data && data.autor) {
-    // Agregar el nuevo autor
-    this.autores.push(data.autor);
-    this.buscar(); // Si tienes un método para filtrar o actualizar la tabla
-
-    // Mostrar mensaje de éxito
-    const toast = await this.toastController.create({
-      message: 'Autor registrado correctamente',
-      duration: 2000,
-      position: 'bottom',
-      color: 'success'
+  async nuevoAutor() {
+    const modal = await this.modalController.create({
+      component: ModalesRegistrarAutoresComponent,
+      cssClass: 'modal-registrar-autor',
+      backdropDismiss: false,
     });
-    await toast.present();
+
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.autor) {
+      this.autores.push(data.autor);
+      this.buscar();
+
+    
+    }
   }
 
-}
+  async editarAutor(autor: Autor) {
+    const modal = await this.modalController.create({
+      component: ModalesRegistrarAutoresComponent,
+      componentProps: { autor: { ...autor } },
+      cssClass: 'modal-registrar-autor',
+      backdropDismiss: false,
+    });
+
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.autor) {
+      const index = this.autores.findIndex(a => a.id === data.autor.id);
+      if (index !== -1) {
+        this.autores[index] = data.autor;
+      }
+      this.buscar();
+    }
+  }
+
+  
 }

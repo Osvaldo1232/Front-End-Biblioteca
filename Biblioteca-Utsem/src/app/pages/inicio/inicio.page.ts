@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { SerivicosService } from 'src/app/Servicios/serivicos-service';
 
 @Component({
   selector: 'app-inicio',
@@ -14,7 +15,7 @@ export class InicioPage implements OnInit {
   sidebarVisible: boolean = true;
   isMobile: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private loginService: SerivicosService) {}
 
   ngOnInit() {
     this.checkScreenSize();
@@ -42,7 +43,8 @@ export class InicioPage implements OnInit {
     }
   }
 
-  logout() {
-    this.router.navigate(['/home']);
+    logout(): void {
+    this.loginService.logout();
+    this.router.navigate(['/login']);
   }
 }

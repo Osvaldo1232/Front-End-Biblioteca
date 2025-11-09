@@ -15,7 +15,8 @@ export const routes: Routes = [
     path: 'inicio',
     component: InicioPage, // Layout con sidebar + header
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+
+      { path: '', redirectTo: 'carreras', pathMatch: 'full' },
       { path: 'estudiantes-registrados', loadComponent: () => import('./pages/estudiantes-registrados/estudiantes-registrados.page').then(m => m.EstudiantesRegistradosPage) },
       { path: 'carreras', loadComponent: () => import('./pages/carreras/carreras.page').then(m => m.CarrerasPage) },
       { path: 'libros', loadComponent: () => import('./pages/libros/libros.page').then(m => m.LibrosPage) },

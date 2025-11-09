@@ -1,50 +1,77 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { Carrera } from 'src/app/modelos/LoginResponse';
+import { SerivicosService } from 'src/app/Servicios/serivicos-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { AlertController, ModalController } from '@ionic/angular';
-
+import { IonicModule, ToastController } from '@ionic/angular';
+import { AlertService } from 'src/app/shared/alert-service';
 @Component({
   selector: 'app-modal-registrar-carrera',
   templateUrl: './modal-registrar-carrera.component.html',
   styleUrls: ['./modal-registrar-carrera.component.scss'],
-  imports: [CommonModule,
-      FormsModule,
-      IonicModule,
-    ]
+  standalone: true,
+   imports: [CommonModule, FormsModule, IonicModule],
+
 })
-export class ModalRegistrarCarreraComponent  implements OnInit {
+export class ModalRegistrarCarreraComponent {
 
-  carrera = {
-     
-     nombre: '',
-     activo: true
-     
-   };
- 
-  
- 
-   constructor(private modalController: ModalController) {}
- 
-   ngOnInit() {}
- 
-   cerrarModal() {
-     this.modalController.dismiss();
-   }
- 
-   aceptar() {
-     // Validar que todos los campos estén llenos
-     if (!this.carrera.nombre  
-        ) {
-       // Aquí podrías mostrar un toast de error
-       return;
-     }
- 
-     // Devolver los datos del estudiante
-     this.modalController.dismiss({
-       estudiante: this.carrera
-     });
-   }
- 
+  @Input() carrera: any = {
+    id: null,
+    nombre: '',
+    activo: true // toggle controlará esto
+  };
 
+  constructor(
+    private modalController: ModalController,
+    private carrerasService: SerivicosService,
+        private alertService: AlertService
+  ) {}
+
+  cerrarModal() {
+    this.modalController.dismiss();
+  }
+
+  aceptar() {
+    const carreraPayload: Carrera = {
+      nombre: this.carrera.nombre,
+      estatus: this.carrera.activo ? 'ACTIVO' : 'INACTIVO'
+    };
+
+    // Si tiene ID, es edición
+    if (this.carrera.id) {
+      this.carrerasService.actualizarCarrera(this.carrera.id, carreraPayload)
+        .subscribe({
+          next: (resp) => {
+            this.modalController.dismiss({ carrera: resp });
+
+            this.alertService.show(
+  'La carrera se actualizo correctamente',
+  'success',
+  'Exito'
+);
+          },
+          error: (err) => {
+            console.error('Error al actualizar carrera:', err);
+          }
+        });
+    } else {
+      // Crear nueva carrera
+      this.carrerasService.crearCarrera(carreraPayload)
+        .subscribe({
+          next: (resp) => {
+
+             this.alertService.show(
+  'La carrera se guardo correctamente',
+  'success',
+  'Exito'
+);
+            this.modalController.dismiss({ carrera: resp });
+          },
+          error: (err) => {
+            console.error('Error al registrar carrera:', err);
+          }
+        });
+    }
+  }
 }

@@ -18,7 +18,6 @@
       <table>
         <thead>
           <tr>
-            <th>ID</th>
             <th>NOMBRE</th>
             <th>ACCIÓN</th>
           </tr>
@@ -26,11 +25,10 @@
 
         <tbody>
           <tr *ngFor="let c of filteredCategorias; let i = index" [class.par]="i % 2 === 0">
-            <td>{{ c.id }}</td>
+           
             <td>{{ c.nombre }}</td>
             <td class="acciones">
               <ion-icon name="create-outline" (click)="editarCategoria(c)" style="cursor:pointer; margin-right: 10px;"></ion-icon>
-              <ion-icon name="trash-outline" (click)="eliminarCategoria(c)" style="cursor:pointer;"></ion-icon>
             </td>
           </tr>
         </tbody>

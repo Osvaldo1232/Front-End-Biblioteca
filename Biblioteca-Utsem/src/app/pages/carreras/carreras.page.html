@@ -35,23 +35,16 @@
               <div class="separador"></div>
 
               <div class="estado-toggle">
-                <span class="estado-label">Estatus: {{ carrera.activo ? 'Activo' : 'Inactivo' }}</span>
+                <span class="estado-label">Estatus: {{ carrera.estatus }}</span>
                 <ion-toggle
-                  [(ngModel)]="carrera.activo"
+                  [(ngModel)]="carrera.estatus"
                   (ionChange)="cambiarEstado(carrera)"
                   color="success"
                 ></ion-toggle>
               </div>
 
               <div class="botones-accion">
-                <ion-button
-                  fill="solid"
-                  
-                  class="btn-accion"
-                  (click)="eliminarCarrera(carrera)"
-                >
-                  Eliminar
-                </ion-button>
+                
 
                 <ion-button
                   fill="solid"

@@ -3,14 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { ModalesRegistrarCategoriaComponent } from '../components/modales-registrar-categoria/modales-registrar-categoria.component';
-
-interface Categoria {
-  id: string;
-  nombre: string;
-}
+import { Categoria } from 'src/app/modelos/LoginResponse';
+import { SerivicosService } from 'src/app/Servicios/serivicos-service';
 
 @Component({
- selector: 'app-categorias-component',
+  selector: 'app-categorias-component',
   templateUrl: './categorias-component.component.html',
   styleUrls: ['./categorias-component.component.scss'],
   standalone: true,
@@ -18,26 +15,34 @@ interface Categoria {
 })
 export class CategoriasComponentComponent implements OnInit {
   searchTerm: string = '';
-
-  categorias: Categoria[] = [
-    { id: 'C-001', nombre: 'Infantil' },
-    { id: 'C-002', nombre: 'Juvenil' },
-    { id: 'C-003', nombre: 'Fantasía' },
-    { id: 'C-004', nombre: 'Terror' },
-    { id: 'C-005', nombre: 'Romance' },
-    { id: 'C-006', nombre: 'Educativo' },
-    { id: 'C-007', nombre: 'Ciencia ficción' },
-  ];
-
+  categorias: Categoria[] = [];
   filteredCategorias: Categoria[] = [];
 
   constructor(
     private modalController: ModalController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private categoriasService: SerivicosService
   ) {}
 
   ngOnInit() {
-    this.filteredCategorias = [...this.categorias];
+    this.cargarCategorias();
+  }
+
+  cargarCategorias() {
+    this.categoriasService.obtenerCategorias().subscribe({
+      next: (data) => {
+        this.categorias = data;
+        this.filteredCategorias = [...data];
+      },
+      error: async () => {
+        const toast = await this.toastController.create({
+          message: 'Error al cargar las categorías',
+          duration: 2000,
+          color: 'danger',
+        });
+        await toast.present();
+      },
+    });
   }
 
   buscar() {
@@ -45,10 +50,8 @@ export class CategoriasComponentComponent implements OnInit {
       this.filteredCategorias = [...this.categorias];
     } else {
       const term = this.searchTerm.toLowerCase();
-      this.filteredCategorias = this.categorias.filter(
-        c =>
-          c.id.toLowerCase().includes(term) ||
-          c.nombre.toLowerCase().includes(term)
+      this.filteredCategorias = this.categorias.filter(c =>
+        c.nombre.toLowerCase().includes(term)
       );
     }
   }
@@ -58,38 +61,40 @@ export class CategoriasComponentComponent implements OnInit {
     this.filteredCategorias = [...this.categorias];
   }
 
-  editarCategoria(categoria: Categoria) {
-    console.log('Editar categoría:', categoria);
-  }
-
-  eliminarCategoria(categoria: Categoria) {
-    console.log('Eliminar categoría:', categoria);
-  }
-
-async nuevaCategoria() {
-  const modal = await this.modalController.create({
-    component: ModalesRegistrarCategoriaComponent,
-    cssClass: 'modal-registrar-categoria',
-    backdropDismiss: false
-  });
-
-  await modal.present();
-
-  const { data } = await modal.onWillDismiss();
-
-  if (data && data.categoria) {
-    // Agregar la nueva categoría
-    this.categorias.push(data.categoria);
-    this.buscar(); // Actualizar la lista si tienes filtrado
-
-    // Mostrar mensaje de éxito
-    const toast = await this.toastController.create({
-      message: 'Categoría registrada correctamente',
-      duration: 2000,
-      position: 'bottom',
-      color: 'success'
+  async nuevaCategoria() {
+    const modal = await this.modalController.create({
+      component: ModalesRegistrarCategoriaComponent,
+      cssClass: 'modal-registrar-categoria',
+      backdropDismiss: false
     });
-    await toast.present();
+
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.categoria) {
+      this.categorias.push(data.categoria);
+      this.buscar();
+    }
   }
+
+  async editarCategoria(categoria: Categoria) {
+    const modal = await this.modalController.create({
+      component: ModalesRegistrarCategoriaComponent,
+      componentProps: { categoria: { ...categoria } }, 
+      cssClass: 'modal-registrar-categoria',
+      backdropDismiss: false,
+    });
+
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.categoria) {
+      // Actualiza la lista local
+      const index = this.categorias.findIndex(c => c.id === data.categoria.id);
+      if (index !== -1) {
+        this.categorias[index] = data.categoria;
+      }
+      this.buscar();
+    }
   }
 }

@@ -13,13 +13,13 @@
 
   <!-- Formulario -->
   <form class="formulario">
-    <!-- Matricula -->
+    <!-- Matrícula -->
     <div class="form-group">
       <ion-input
         [(ngModel)]="estudiante.matricula"
         name="matricula"
         type="text"
-        placeholder="Matricula"
+        placeholder="Matrícula"
         class="custom-input"
       ></ion-input>
     </div>
@@ -35,13 +35,24 @@
       ></ion-input>
     </div>
 
-    <!-- Apellidos -->
+    <!-- Apellido Paterno -->
     <div class="form-group">
       <ion-input
-        [(ngModel)]="estudiante.apellidos"
-        name="apellidos"
+        [(ngModel)]="estudiante.apellidoPaterno"
+        name="apellidoPaterno"
         type="text"
-        placeholder="Apellidos"
+        placeholder="Apellido paterno"
+        class="custom-input"
+      ></ion-input>
+    </div>
+
+    <!-- Apellido Materno -->
+    <div class="form-group">
+      <ion-input
+        [(ngModel)]="estudiante.apellidoMaterno"
+        name="apellidoMaterno"
+        type="text"
+        placeholder="Apellido materno"
         class="custom-input"
       ></ion-input>
     </div>
@@ -49,33 +60,36 @@
     <!-- Carrera -->
     <div class="form-group">
       <ion-select
-        [(ngModel)]="estudiante.carrera"
-        name="carrera"
+        [(ngModel)]="estudiante.carreraId"
+        name="carreraId"
         interface="popover"
-        placeholder="Carrera"
+        placeholder="Seleccionar carrera"
         class="custom-select"
       >
-        <ion-select-option *ngFor="let carrera of carreras" [value]="carrera">
-          {{ carrera }}
+        <ion-select-option 
+          *ngFor="let carrera of carreras" 
+          [value]="carrera.id"
+        >
+          {{ carrera.nombre }}
         </ion-select-option>
       </ion-select>
     </div>
 
+
+     <div class="estado-toggle-container">
+      <div class="estado-toggle">
+        <span class="estado-titulo">Estatus:</span>
+        <span class="estado-label">{{ estudiante.activo ? 'Activo' : 'Inactivo' }}</span>
+        <ion-toggle [(ngModel)]="estudiante.activo" name="activo" color="success"></ion-toggle>
+      </div>
+    </div>
     <!-- Botones -->
     <div class="botones-container">
-      <ion-button
-        fill="outline"
-        class="btn-cancelar"
-        (click)="cerrarModal()"
-      >
+      <ion-button fill="outline" class="btn-cancelar" (click)="cerrarModal()">
         Cancelar
       </ion-button>
 
-      <ion-button
-        fill="solid"
-        class="btn-aceptar"
-        (click)="aceptar()"
-      >
+      <ion-button fill="solid" class="btn-aceptar" (click)="aceptar()">
         Aceptar
       </ion-button>
     </div>

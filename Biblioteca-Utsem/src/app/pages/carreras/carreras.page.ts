@@ -4,12 +4,10 @@ import { FormsModule } from '@angular/forms'; // Necesario si usas two-way bindi
 import { AlertController, ModalController, ToastController  } from '@ionic/angular';
 import { IonicModule } from '@ionic/angular'; // Módulo principal de Ionic
 import { ModalRegistrarCarreraComponent } from '../components/estudiantes-registrados/modal-registrar-carrera/modal-registrar-carrera.component';
+import { SerivicosService } from 'src/app/Servicios/serivicos-service';
+import { Carrera } from 'src/app/modelos/LoginResponse';
 
-interface Carrera {
-  id: number;
-  nombre: string;
-  activo: boolean;
-}
+
 @Component({
   selector: 'app-carreras',
   templateUrl: './carreras.page.html',
@@ -28,25 +26,15 @@ carreras: Carrera[] = [];
   constructor(
     private alertController: AlertController,
     private modalController: ModalController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private carrerasService:SerivicosService
   ) {}
 
   ngOnInit() {
     this.cargarCarreras();
   }
 
-  cargarCarreras() {
-    // Datos de ejemplo - reemplazar con servicio real
-    this.carreras = [
-      { id: 1, nombre: 'INGENIERIA EN DESARROLLO Y GESTIÓN DE SOFTWARE', activo: false },
-      { id: 2, nombre: 'INGENIERIA EN DESARROLLO Y GESTIÓN DE SOFTWARE', activo: true },
-      { id: 3, nombre: 'INGENIERIA EN DESARROLLO Y GESTIÓN DE SOFTWARE', activo: false },
-      { id: 4, nombre: 'INGENIERIA EN DESARROLLO Y GESTIÓN DE SOFTWARE', activo: false },
-      { id: 5, nombre: 'INGENIERIA EN DESARROLLO Y GESTIÓN DE SOFTWARE', activo: true },
-      { id: 6, nombre: 'INGENIERIA EN DESARROLLO Y GESTIÓN DE SOFTWARE', activo: false },
-    ];
-    this.carrerasFiltradas = [...this.carreras];
-  }
+ 
 
   buscarCarrera() {
     if (this.busqueda.trim() === '') {
@@ -86,15 +74,41 @@ carreras: Carrera[] = [];
     await alert.present();
   }
 
-  editarCarrera(carrera: Carrera) {
-    // Implementar navegación o modal para editar
-    console.log('Editar carrera:', carrera);
-  }
+ async editarCarrera(carrera: any) {
+  const modal = await this.modalController.create({
+    component: ModalRegistrarCarreraComponent,
+    componentProps: { 
+      carrera: { ...carrera, activo: carrera.estatus === 'ACTIVO' } 
+    },
+    cssClass: 'modal-registrar-carrera',
+    backdropDismiss: false
+  });
 
-  cambiarEstado(carrera: Carrera) {
-    carrera.activo = !carrera.activo;
-    // Aquí deberías hacer la llamada al servicio para actualizar en el backend
+  await modal.present();
+
+  const { data } = await modal.onWillDismiss();
+
+  if (data && data.carrera) {
+    const index = this.carreras.findIndex(c => c.id === data.carrera.id);
+    if (index !== -1) this.carreras[index] = data.carrera;
+
+    this.cargarCarreras();
   }
+}
+
+cambiarEstado(carrera: Carrera) {
+  // alternar entre ACTIVO e INACTIVO
+  carrera.estatus = carrera.estatus === 'ACTIVO' ? 'INACTIVO' : 'ACTIVO';
+
+  // Llamar al servicio para actualizar en el backend
+  this.carrerasService.actualizarEstatus(carrera.id!, carrera.estatus)
+    .subscribe({
+      next: () => console.log('Estatus actualizado correctamente'),
+      error: (err) => console.error('Error al actualizar estatus', err)
+    });
+}
+
+
 
  async agregarNueva() {
     const modal = await this.modalController.create({
@@ -112,14 +126,23 @@ carreras: Carrera[] = [];
       this.carreras.push(data.carrera);
       this.buscarCarrera(); // Actualizar la lista filtrada
 
-      // Mostrar mensaje de éxito
-      const toast = await this.toastController.create({
-        message: 'Carrera registrada correctamente',
-        duration: 2000,
-        position: 'bottom',
-        color: 'success'
-      });
-      await toast.present();
+     
     }
+  }
+
+
+  cargarCarreras() {
+    this.carrerasService.obtenerCarreras().subscribe({
+      next: (data) => {
+        this.carreras = data.map(c => ({
+          ...c,
+          activo: c.estatus === 'ACTIVO'
+        }));
+        this.carrerasFiltradas = [...this.carreras];
+      },
+      error: (err) => {
+        console.error('Error al cargar carreras:', err);
+      }
+    });
   }
 }

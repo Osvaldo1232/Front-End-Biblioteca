@@ -1,54 +1,109 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { Component, Input, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { AlertService } from 'src/app/shared/alert-service';
+import { SerivicosService } from 'src/app/Servicios/serivicos-service';
+import { Carrera, Estudiante } from 'src/app/modelos/LoginResponse';
+
 @Component({
   selector: 'app-modal-registrar-estudiante',
   templateUrl: './modal-registrar-estudiante.component.html',
   styleUrls: ['./modal-registrar-estudiante.component.scss'],
-   imports: [CommonModule,
-      FormsModule,
-      IonicModule,
-    ]
+  standalone: true,
+  imports: [CommonModule, FormsModule, IonicModule],
 })
-export class ModalRegistrarEstudianteComponent  implements OnInit {
- estudiante = {
-    matricula: '',
+export class ModalRegistrarEstudianteComponent implements OnInit {
+
+  @Input() estudiante: any = {
+    id: null,
     nombre: '',
-    apellidos: '',
-    carrera: ''
+    apellidoPaterno: '',
+    apellidoMaterno: '',
+    matricula: '',
+    carreraId: '',
+    carreraNombre: '',
+    estatus: 'ACTIVO'
   };
 
-  carreras: string[] = [
-    'Tics',
-    'Mecatronica',
-    'Lengua Inglesa',
-    'Contabilidad',
-    'Administración',
-    'Enfermeria'
-  ];
+  carreras: Carrera[] = [];
 
-  constructor(private modalController: ModalController) {}
+  constructor(
+    private modalController: ModalController,
+    private estudiantesService: SerivicosService,
+    private alertService: AlertService
+  ) {}
+ ngOnInit() {
+    this.cargarCarreras();
+  }
 
-  ngOnInit() {}
-
+  cargarCarreras() {
+    this.estudiantesService.obtenerCarreras().subscribe({
+      next: (data) => {
+        this.carreras = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar carreras:', err);
+        this.alertService.show('No se pudieron cargar las carreras', 'danger', 'Error');
+      }
+    });
+  }
   cerrarModal() {
     this.modalController.dismiss();
   }
 
   aceptar() {
-    // Validar que todos los campos estén llenos
-    if (!this.estudiante.matricula || !this.estudiante.nombre || 
-        !this.estudiante.apellidos || !this.estudiante.carrera) {
-      // Aquí podrías mostrar un toast de error
-      return;
-    }
+    const estudiantePayload: Estudiante = {
+      id: this.estudiante.id,
+      nombre: this.estudiante.nombre,
+      apellidoPaterno: this.estudiante.apellidoPaterno,
+      apellidoMaterno: this.estudiante.apellidoMaterno,
+      matricula: this.estudiante.matricula,
+      carreraId: this.estudiante.carreraId,
+      carreraNombre: this.obtenerCarreraNombre(this.estudiante.carreraId),
+      estatus: this.estudiante.estatus || 'ACTIVO'
+    };
 
-    // Devolver los datos del estudiante
-    this.modalController.dismiss({
-      estudiante: this.estudiante
-    });
+    if (this.estudiante.id) {
+      // Editar estudiante
+      this.estudiantesService.actualizarEstudiante(this.estudiante.id, estudiantePayload)
+        .subscribe({
+          next: (resp) => {
+            this.alertService.show(
+              'El estudiante se actualizó correctamente',
+              'success',
+              'Éxito'
+            );
+            this.modalController.dismiss({ estudiante: resp });
+          },
+          error: (err) => {
+            console.error('Error al actualizar estudiante:', err);
+            this.alertService.show('Error al actualizar el estudiante', 'danger', 'Error');
+          }
+        });
+    } else {
+      // Crear estudiante
+      this.estudiantesService.crearEstudiante(estudiantePayload)
+        .subscribe({
+          next: (resp) => {
+            this.alertService.show(
+              'El estudiante se registró correctamente',
+              'success',
+              'Éxito'
+            );
+            this.modalController.dismiss({ estudiante: resp });
+          },
+          error: (err) => {
+            console.error('Error al registrar estudiante:', err);
+            this.alertService.show('Error al registrar el estudiante', 'danger', 'Error');
+          }
+        });
+    }
   }
 
+  private obtenerCarreraNombre(carreraId: string): string {
+    const carrera = this.carreras.find(c => c.id === carreraId);
+    return carrera ? carrera.nombre : '';
+  }
 }

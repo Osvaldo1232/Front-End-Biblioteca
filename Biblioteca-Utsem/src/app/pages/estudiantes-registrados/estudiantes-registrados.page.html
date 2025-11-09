@@ -44,8 +44,8 @@
               [class.fila-impar]="i % 2 !== 0">
             <td>{{ estudiante.matricula }}</td>
             <td>{{ estudiante.nombre }}</td>
-            <td>{{ estudiante.apellidos }}</td>
-            <td>{{ estudiante.carrera }}</td>
+            <td>{{ estudiante.apellidoPaterno }}</td>
+            <td>{{ estudiante.carreraNombre }}</td>
             <td class="columna-acciones">
               <ion-button 
                 fill="clear" 
@@ -55,14 +55,6 @@
               >
               
                 <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-              </ion-button>
-              <ion-button 
-                fill="clear" 
-                size="small" 
-                (click)="eliminarEstudiante(estudiante)"
-                class="btn-accion btn-eliminar"
-              >
-                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
               </ion-button>
             </td>
           </tr>
