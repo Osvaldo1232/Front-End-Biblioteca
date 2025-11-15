@@ -157,3 +157,27 @@
     }
   }
 }
+
+
+.estatus-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  ion-label {
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  .estatus-estado {
+    margin-right: 15px;
+    font-size: 0.95rem;
+    color: #333;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .estatus-item .estatus-estado {
+    color: #e0e0e0;
+  }
+}

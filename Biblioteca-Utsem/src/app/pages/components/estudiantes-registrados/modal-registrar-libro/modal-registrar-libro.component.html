@@ -1,92 +1,81 @@
 <div class="modal-container">
-  <!-- Botón cerrar (X) -->
-  <ion-button 
-    fill="clear" 
-    class="btn-cerrar" 
-    (click)="cerrarModal()"
-  >
+
+  <!-- Botón cerrar -->
+  <ion-button fill="clear" class="btn-cerrar" (click)="cerrarModal()">
     <ion-icon slot="icon-only" name="close"></ion-icon>
   </ion-button>
 
-  <!-- Título -->
-  <h2 class="modal-titulo">Registrar Libro</h2>
+  <!-- Título dinámico -->
+  <h2 class="modal-titulo">
+    {{ libroEditar ? 'Editar Libro' : 'Registrar Libro' }}
+  </h2>
 
-  <!-- Formulario -->
   <form class="formulario">
+
     <!-- Título -->
     <div class="form-group">
-      <ion-input
-        [(ngModel)]="libro.titulo"
-        name="titulo"
-        type="text"
-        placeholder="Título"
-        class="custom-input"
-      ></ion-input>
+      <ion-input [(ngModel)]="libro.titulo" name="titulo" type="text"
+        placeholder="Título" class="custom-input"></ion-input>
     </div>
 
-    <!-- Autores -->
+    <!-- AUTORES (MULTISELECT) -->
     <div class="form-group">
-      <ion-input
-        [(ngModel)]="libro.autores"
-        name="autores"
-        type="text"
-        placeholder="Autores"
-        class="custom-input"
-      ></ion-input>
+      <ion-label>Autores</ion-label>
+      <ion-select [(ngModel)]="libro.autores" name="autores" multiple="true"
+        interface="alert" placeholder="Selecciona autores">
+        <ion-select-option *ngFor="let a of autores" [value]="a.id">
+          {{ a.nombre }}
+        </ion-select-option>
+      </ion-select>
     </div>
 
-    <!-- Año de Publicación -->
+    <!-- CATEGORIA -->
     <div class="form-group">
-      <ion-input
-        [(ngModel)]="libro.anioPublicacion"
-        name="anioPublicacion"
-        type="number"
-        placeholder="Año de Publicación"
-        class="custom-input"
-        min="1000"
-        [max]="currentYear"
-      ></ion-input>
+      <ion-label>Categoría</ion-label>
+      <ion-select [(ngModel)]="libro.categoria" name="categoria"
+        interface="popover" placeholder="Selecciona categoría">
+        <ion-select-option *ngFor="let c of categorias" [value]="c.id">
+          {{ c.nombre }}
+        </ion-select-option>
+      </ion-select>
+    </div>
+
+    <!-- Año -->
+    <div class="form-group">
+      <ion-input [(ngModel)]="libro.anioPublicacion" name="anioPublicacion"
+        type="number" min="1000" [max]="currentYear"
+        placeholder="Año de Publicación" class="custom-input"></ion-input>
     </div>
 
     <!-- Editorial -->
     <div class="form-group">
-      <ion-input
-        [(ngModel)]="libro.editorial"
-        name="editorial"
-        type="text"
-        placeholder="Editorial"
-        class="custom-input"
-      ></ion-input>
+      <ion-input [(ngModel)]="libro.editorial" name="editorial" type="text"
+        placeholder="Editorial" class="custom-input"></ion-input>
     </div>
 
-    <!-- Copias Disponibles -->
+    <!-- Copias -->
     <div class="form-group">
-      <ion-input
-        [(ngModel)]="libro.copiasDisponibles"
-        name="copiasDisponibles"
-        type="number"
-        placeholder="Copias Disponibles"
-        class="custom-input"
-        min="0"
-      ></ion-input>
+      <ion-input [(ngModel)]="libro.copiasDisponibles" name="copiasDisponibles"
+        type="number" placeholder="Copias Disponibles" min="0"
+        class="custom-input"></ion-input>
+    </div>
+
+    <!-- ESTATUS -->
+    <div class="form-group">
+      <ion-item lines="none">
+        <ion-label>Estatus</ion-label>
+        <div>{{ libro.estatus ? 'Activo' : 'Inactivo' }}</div>
+        <ion-toggle [(ngModel)]="libro.estatus" name="estatus"
+          color="success"></ion-toggle>
+      </ion-item>
     </div>
 
     <!-- Botones -->
     <div class="botones-container">
-      <ion-button
-        fill="outline"
-        class="btn-cancelar"
-        (click)="cerrarModal()"
-      >
-        Cancelar
-      </ion-button>
+      <ion-button fill="outline" (click)="cerrarModal()">Cancelar</ion-button>
 
-      <ion-button
-        fill="solid"
-        class="btn-aceptar"
-        (click)="aceptar()"
-      >
-        Aceptar
+      <ion-button fill="solid" (click)="aceptar()">
+        {{ libroEditar ? 'Actualizar' : 'Aceptar' }}
       </ion-button>
     </div>
   </form>

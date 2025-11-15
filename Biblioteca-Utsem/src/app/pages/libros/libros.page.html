@@ -25,14 +25,14 @@
         <tbody>
           <tr *ngFor="let e of libros; let i = index" [class.par]="i % 2 === 0">
             <td>{{ e.titulo }}</td>
-            <td>{{ e.autor }}</td>
-            <td>{{ e.anoPublicacion }}</td>
+            <td>{{ e.autores }}</td>
+            <td>{{ e.anioPublicacion }}</td>
             <td>{{ e.editorial }}</td>
-            <td>{{ e.disponibles }}</td>
+            <td>{{ e.copiasDisponibles }}</td>
             <td>{{ e.estatus }}</td>
              <td class="acciones">
           <!-- Íconos de Ionic -->
-          <ion-icon name="create-outline" style="cursor:pointer; margin-right: 10px;"></ion-icon>
+          <ion-icon name="create-outline" style="cursor:pointer; margin-right: 10px;"   (click)="editarLibro(e)"></ion-icon>
           <ion-icon name="trash-outline"  style="cursor:pointer;"></ion-icon>
         </td>
           </tr>

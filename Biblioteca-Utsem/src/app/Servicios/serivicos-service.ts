@@ -1,35 +1,30 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Autor, Carrera, Categoria, Estudiante, LoginResponse } from '../modelos/LoginResponse';
-
-
-
-
+import { Autor, Carrera, Categoria, Estudiante, Libro, Libros, LoginResponse } from '../modelos/LoginResponse';
 @Injectable({
   providedIn: 'root'
 })
 export class SerivicosService {
   
  private baseUrl = 'http://localhost:8000';
+ private baseUrlLI = 'http://localhost:8000/libros';
+
  private baseUrlc = 'http://localhost:8000/carreras';
  private baseUrlA = 'http://localhost:8000/alumnos';
-   private baseUrlC = 'http://localhost:8000/categorias';
-   private baseUrlAu = 'http://localhost:8000/autores';
-
+ private baseUrlC = 'http://localhost:8000/categorias';
+ private baseUrlAu = 'http://localhost:8000/autores';
 
 
  crearCarrera(carrera: Carrera): Observable<Carrera> {
   return this.http.post<Carrera>(`${this.baseUrlc}`, carrera);
 }
 
-
 actualizarEstatus(id: string, estatus: string): Observable<any> {
   const url = `${this.baseUrlc}/${id}/estatus?estatus=${estatus}`;
-  return this.http.patch(url, {}); // PATCH sin body, solo con query param
+  return this.http.patch(url, {}); 
 }
 
 
@@ -37,12 +32,10 @@ actualizarCarrera(id: string, carrera: Carrera): Observable<Carrera> {
   return this.http.put<Carrera>(`${this.baseUrlc}/${id}`, carrera);
 }
 
-  // Obtener todas las carreras (opcional)
   obtenerCarreras(): Observable<Carrera[]> {
     return this.http.get<Carrera[]>(this.baseUrlc);
   }
 
-  // Obtener una carrera por ID (opcional)
   obtenerCarreraPorId(id: string): Observable<Carrera> {
     return this.http.get<Carrera>(`${this.baseUrl}/${id}`);
   }
@@ -76,10 +69,6 @@ actualizarCarrera(id: string, carrera: Carrera): Observable<Carrera> {
     return !!this.getToken();
   }
 
-
-  
-
-
   obtenerEstudiantes(): Observable<Estudiante[]> {
     return this.http.get<Estudiante[]>(this.baseUrlA);
   }
@@ -105,18 +94,25 @@ actualizarCarrera(id: string, carrera: Carrera): Observable<Carrera> {
   actualizarCategoria(id: string, categoria: Partial<Categoria>): Observable<Categoria> {
     return this.http.put<Categoria>(`${this.baseUrlC}/${id}`, categoria);
   }
+ registrarLibro(libro: any): Observable<any> {
+    return this.http.post(`${this.baseUrlLI}`, libro);
+  }
 
+ actualizarLibro(id: string, payload: any) {
+  return this.http.put(`${this.baseUrlLI}/${id}`, payload);
+}
 
-
+   obtenerLibros(): Observable<Libros[]> {
+    return this.http.get<Libros[]>(this.baseUrlLI);
+  }
 
   obtenerAutores(): Observable<Autor[]> {
     return this.http.get<Autor[]>(this.baseUrlAu);
   }
-
+ 
   crearAutor(autor: Autor): Observable<Autor> {
     return this.http.post<Autor>(this.baseUrlAu, autor);
   }
-
   actualizarAutor(id: string, autor: Autor): Observable<Autor> {
     return this.http.put<Autor>(`${this.baseUrlAu}/${id}`, autor);
   }

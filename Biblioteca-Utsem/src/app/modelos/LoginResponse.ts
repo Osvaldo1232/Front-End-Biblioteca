@@ -48,3 +48,29 @@ export interface Categoria {
   id?: string;
   nombre: string;
 }
+
+
+export interface Libro {
+  id: string;
+  titulo: string;
+  autores: string[];           // ← array de strings
+  anioPublicacion: number;
+  editorial: string;
+  copiasDisponibles: number;
+  categoriaId: string;
+  categoriaNombre: string;
+  estatus: string;             // ACTIVO | INACTIVO
+}
+
+
+export interface Libros {
+  id: string;
+  titulo: string;
+  autores: string[];               // Lista de nombres
+  anioPublicacion: number;
+  editorial: string;
+  copiasDisponibles: number;
+  categoriaId: string;
+  categoriaNombre: string;
+  estatus: 'ACTIVO' | 'INACTIVO';
+}

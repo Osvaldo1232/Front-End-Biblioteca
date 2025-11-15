@@ -43,7 +43,6 @@ export class ModalesRegistrarCategoriaComponent implements OnInit {
     }
 
     if (this.categoria.id) {
-      // 👉 EDITAR
       this.categoriasService.actualizarCategoria(this.categoria.id, { nombre: this.categoria.nombre })
         .subscribe({
           next: async (resp) => {
@@ -63,7 +62,6 @@ export class ModalesRegistrarCategoriaComponent implements OnInit {
           },
         });
     } else {
-      // 👉 CREAR
       this.categoriasService.crearCategoria({ nombre: this.categoria.nombre })
         .subscribe({
           next: async (resp) => {
