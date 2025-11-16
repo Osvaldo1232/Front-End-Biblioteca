@@ -5,14 +5,14 @@ import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { ModalRegistrarLibroComponent } from '../components/estudiantes-registrados/modal-registrar-libro/modal-registrar-libro.component';
 import { Libro, Libros } from 'src/app/modelos/LoginResponse';
 import { SerivicosService } from 'src/app/Servicios/serivicos-service';
-
-
+import { LoadingService } from 'src/app/shared/loading-service';
+import { Loading } from 'src/app/shared/loading/loading';
 @Component({
   selector: 'app-libros',
   templateUrl: './libros.page.html',
   styleUrls: ['./libros.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule]
+  imports: [CommonModule, FormsModule, IonicModule, Loading]
 })
 export class LibrosPage implements OnInit {
 
@@ -23,7 +23,8 @@ export class LibrosPage implements OnInit {
   constructor(
     private modalController: ModalController,
     private toastController: ToastController,
-    private librosService: SerivicosService
+    private librosService: SerivicosService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit() {
@@ -31,14 +32,16 @@ export class LibrosPage implements OnInit {
   }
 
   cargarLibros() {
+    this.loadingService.show();
     this.librosService.obtenerLibros().subscribe({
       next: (resp) => {
         this.libros = resp;
         this.filteredLibros = [...this.libros];
-        console.log("Libros cargados:", this.libros);
+        this.loadingService.hide();
       },
       error: (err) => {
-        console.error("Error al cargar libros:", err);
+        this.loadingService.hide();
+
       }
     });
   }
@@ -80,8 +83,10 @@ export class LibrosPage implements OnInit {
     if (index !== -1) {
       this.libros[index] = data.libroActualizado;
       this.buscar(); 
+      this.cargarLibros();
     }
   }
+
 }
 
 
@@ -101,6 +106,8 @@ export class LibrosPage implements OnInit {
     if (data && data.libro) {
       this.libros.push(data.libro);
       this.buscar();
+      this.cargarLibros();
+
     }
   }
 }

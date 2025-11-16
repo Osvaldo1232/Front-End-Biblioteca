@@ -69,14 +69,16 @@
           color="success"></ion-toggle>
       </ion-item>
     </div>
+ <div class="botones-container">
+      <ion-button fill="outline" class="btn-cancelar" (click)="cerrarModal()">
+        Cancelar
+      </ion-button>
 
-    <!-- Botones -->
-    <div class="botones-container">
-      <ion-button fill="outline" (click)="cerrarModal()">Cancelar</ion-button>
-
-      <ion-button fill="solid" (click)="aceptar()">
+      <ion-button fill="solid" class="btn-aceptar" (click)="aceptar()">
         {{ libroEditar ? 'Actualizar' : 'Aceptar' }}
       </ion-button>
     </div>
+
+   
   </form>
 </div>

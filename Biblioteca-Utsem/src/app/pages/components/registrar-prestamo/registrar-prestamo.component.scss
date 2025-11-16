@@ -1,0 +1,159 @@
+.modal-container {
+  padding: 30px;
+  position: relative;
+  background: white;
+  min-height: 400px;
+}
+
+.btn-cerrar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  --color: #333;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  z-index: 10;
+
+  ion-icon {
+    font-size: 28px;
+  }
+
+  &:hover {
+    --color: #000;
+  }
+}
+
+.modal-titulo {
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: #2c3e50;
+  margin: 0 0 40px 0;
+  text-align: left;
+  font-family: 'Georgia', serif;
+  letter-spacing: 0.5px;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  width: 100%;
+
+  .custom-input {
+    --background: #e8e8e8;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --placeholder-color: #888;
+    --placeholder-opacity: 1;
+    --color: #333;
+    border-radius: 8px;
+    font-size: 1rem;
+    min-height: 50px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+
+    &:focus-within {
+      border-color: #d0d0d0;
+    }
+  }
+}
+
+.botones-container {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  justify-content: flex-end;
+
+  .btn-cancelar {
+    --border-color: #999;
+    --border-width: 1px;
+    --color: #666;
+    --background: transparent;
+    --border-radius: 8px;
+    height: 44px;
+    text-transform: none;
+    font-weight: 400;
+    min-width: 110px;
+
+    &:hover {
+      --background: #f5f5f5;
+      --color: #333;
+    }
+  }
+
+  .btn-aceptar {
+    --background: #AAC5A8;
+    --background-hover: #9ab59a;
+    --background-activated: #8aa588;
+    --border-radius: 8px;
+    height: 44px;
+    text-transform: none;
+    font-weight: 400;
+    min-width: 110px;
+
+    &:hover {
+      --background: #9ab59a;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .modal-container {
+    padding: 20px;
+  }
+
+  .modal-titulo {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+  }
+
+  .botones-container {
+    flex-direction: column;
+
+    .btn-cancelar,
+    .btn-aceptar {
+      width: 100%;
+    }
+  }
+}
+
+// Tema oscuro
+@media (prefers-color-scheme: dark) {
+  .modal-container {
+    background: #2c2c2c;
+  }
+
+  .btn-cerrar {
+    --color: #d0d0d0;
+
+    &:hover {
+      --color: #fff;
+    }
+  }
+
+  .modal-titulo {
+    color: #e0e0e0;
+  }
+
+  .form-group {
+    .custom-input {
+      --background: #3a3a3a;
+      --placeholder-color: #999;
+      --color: #e0e0e0;
+    }
+  }
+
+  .btn-cancelar {
+    --border-color: #666;
+    --color: #d0d0d0;
+
+    &:hover {
+      --background: #3a3a3a;
+      --color: #fff;
+    }
+  }
+}

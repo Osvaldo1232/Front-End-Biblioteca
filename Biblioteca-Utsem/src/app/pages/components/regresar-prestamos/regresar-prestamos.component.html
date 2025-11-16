@@ -1,0 +1,101 @@
+<div class="modal-container">
+
+  <!-- Scrollable content -->
+  <div class="modal-scroll">
+
+    <!-- Título -->
+    <h2 class="modal-titulo">Regresar Préstamo</h2>
+
+    <form class="formulario">
+
+      <div class="form-group">
+        <ion-input
+          [value]="prestamoEditar.alumnoNombre + ' ' + prestamoEditar.apellidoPaterno + ' ' + prestamoEditar.apellidoMaterno"
+          label="Alumno"
+          labelPlacement="floating"
+          readonly
+          class="custom-input"
+        ></ion-input>
+      </div>
+
+      <div class="form-group">
+        <ion-input
+          [value]="prestamoEditar.matricula"
+          label="Matrícula"
+          labelPlacement="floating"
+          readonly
+          class="custom-input"
+        ></ion-input>
+      </div>
+
+      <div class="form-group">
+        <ion-input
+          [value]="prestamoEditar.carreraNombre"
+          label="Carrera"
+          labelPlacement="floating"
+          readonly
+          class="custom-input"
+        ></ion-input>
+      </div>
+
+      <div class="form-group">
+        <ion-input
+          [value]="prestamoEditar.libroTitulo"
+          label="Libro"
+          labelPlacement="floating"
+          readonly
+          class="custom-input"
+        ></ion-input>
+      </div>
+
+      <div class="form-group">
+        <ion-input
+          [(ngModel)]="prestamoEditar.cantidad"
+          name="cantidad"
+          type="number"
+          label="Cantidad"
+          labelPlacement="floating"
+          class="custom-input"
+          [max]="cantidadOriginal"
+          (ionInput)="validarCantidad()"
+        ></ion-input>
+      </div>
+
+      <div class="form-group">
+        <ion-input
+          [value]="prestamoEditar.fechaPrestamo"
+          label="Fecha Préstamo"
+          labelPlacement="floating"
+          readonly
+          class="custom-input"
+        ></ion-input>
+      </div>
+
+      <div class="form-group">
+        <ion-input
+          [(ngModel)]="prestamoEditar.fechaDevolucion"
+          name="fechaDevolucion"
+          type="date"
+          label="Fecha Devolución"
+          labelPlacement="floating"
+          class="custom-input"
+        ></ion-input>
+      </div>
+
+    </form>
+
+  </div>
+
+   <div class="botones-container">
+      <ion-button fill="outline" class="btn-cancelar" (click)="cerrarModal()">
+        Cancelar
+      </ion-button>
+
+      <ion-button fill="solid" class="btn-aceptar" (click)="aceptar()">
+        Aceptar
+      </ion-button>
+    </div>
+
+ 
+
+</div>

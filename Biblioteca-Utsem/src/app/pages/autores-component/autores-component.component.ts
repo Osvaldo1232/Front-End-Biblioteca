@@ -5,13 +5,15 @@ import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { ModalesRegistrarAutoresComponent } from '../components/modales-registrar-autores/modales-registrar-autores.component';
 import { SerivicosService } from 'src/app/Servicios/serivicos-service';
 import { Autor } from 'src/app/modelos/LoginResponse';
+import { LoadingService } from 'src/app/shared/loading-service';
+import { Loading } from 'src/app/shared/loading/loading';
 
 @Component({
   selector: 'app-autores-component',
   templateUrl: './autores-component.component.html',
   styleUrls: ['./autores-component.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule],
+  imports: [CommonModule, FormsModule, IonicModule,Loading],
 })
 export class AutoresComponentComponent implements OnInit {
   searchTerm: string = '';
@@ -21,7 +23,9 @@ export class AutoresComponentComponent implements OnInit {
   constructor(
     private modalController: ModalController,
     private toastController: ToastController,
-    private autoresService: SerivicosService
+    private autoresService: SerivicosService,
+        private loadingService: LoadingService,
+    
   ) {}
 
   ngOnInit() {
@@ -29,18 +33,16 @@ export class AutoresComponentComponent implements OnInit {
   }
 
   cargarAutores() {
+    this.loadingService.show();
     this.autoresService.obtenerAutores().subscribe({
       next: (data) => {
         this.autores = data;
         this.filteredAutores = [...data];
+        this.loadingService.hide();
       },
       error: async () => {
-        const toast = await this.toastController.create({
-          message: 'Error al cargar los autores',
-          duration: 2000,
-          color: 'danger',
-        });
-        await toast.present();
+                this.loadingService.hide();
+
       },
     });
   }

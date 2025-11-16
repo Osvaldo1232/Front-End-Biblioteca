@@ -5,13 +5,15 @@ import { IonicModule, AlertController, ToastController, ModalController } from '
 import { ModalRegistrarEstudianteComponent } from '../components/estudiantes-registrados/modal-registrar-estudiante/modal-registrar-estudiante.component';
 import { SerivicosService } from 'src/app/Servicios/serivicos-service';
 import { Estudiante } from 'src/app/modelos/LoginResponse';
+import { LoadingService } from 'src/app/shared/loading-service';
+import { Loading } from 'src/app/shared/loading/loading';
 
 @Component({
   selector: 'app-estudiantes-registrados',
   templateUrl: './estudiantes-registrados.page.html',
   styleUrls: ['./estudiantes-registrados.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule],
+  imports: [CommonModule, FormsModule, IonicModule, Loading],
 })
 export class EstudiantesRegistradosPage implements OnInit {
   estudiantes: Estudiante[] = [];
@@ -22,7 +24,8 @@ export class EstudiantesRegistradosPage implements OnInit {
     private alertController: AlertController,
     private toastController: ToastController,
     private modalController: ModalController,
-    private servicio: SerivicosService
+    private servicio: SerivicosService,
+     private loadingService: LoadingService
   ) {}
 
   ngOnInit() {
@@ -30,10 +33,12 @@ export class EstudiantesRegistradosPage implements OnInit {
   }
 
   cargarEstudiantes() {
+    this.loadingService.show();
     this.servicio.obtenerEstudiantes().subscribe({
       next: (data) => {
         this.estudiantes = data;
         this.estudiantesFiltrados = [...data];
+        this.loadingService.hide();
       },
       error: async (err) => {
         console.error('Error al cargar estudiantes:', err);

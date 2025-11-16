@@ -1,0 +1,89 @@
+<div class="modal-container">
+
+  <ion-button fill="clear" class="btn-cerrar" (click)="cerrarModal()">
+    <ion-icon slot="icon-only" name="close"></ion-icon>
+  </ion-button>
+
+  <h2 class="modal-titulo">Registrar Préstamo</h2>
+
+  <form class="formulario">
+
+    <!-- ========================================= -->
+    <!--   ALUMNOS (alert + búsqueda interna)      -->
+    <!-- ========================================= -->
+    <div class="form-group">
+      <ion-select
+        [(ngModel)]="prestamo.alumnoId"
+        name="alumnoId"
+        interface="alert"
+        [interfaceOptions]="alertOptionsAlumnos"
+        (ionChange)="filtrarAlumnos(buscarAlumno)"
+        placeholder="Seleccionar Alumno"
+      >
+        <ion-select-option
+          *ngFor="let a of alumnosFiltrados"
+          [value]="a.id"
+        >
+          {{ a.nombre }} {{ a.apellidoPaterno }} {{ a.apellidoMaterno }}
+        </ion-select-option>
+      </ion-select>
+    </div>
+
+    <!-- ========================================= -->
+    <!--   LIBROS (alert + búsqueda interna)       -->
+    <!-- ========================================= -->
+    <div class="form-group">
+      <ion-select
+        [(ngModel)]="prestamo.libroId"
+        name="libroId"
+        interface="alert"
+        [interfaceOptions]="alertOptionsLibros"
+        (ionChange)="filtrarLibros(buscarLibro)"
+        placeholder="Seleccionar Libro"
+      >
+        <ion-select-option
+          *ngFor="let l of librosFiltrados"
+          [value]="l.id"
+        >
+          {{ l.titulo }}
+        </ion-select-option>
+      </ion-select>
+    </div>
+
+    <!-- Cantidad -->
+    <div class="form-group">
+       <ion-label>Cantidad a Prestar</ion-label>
+
+      <ion-input
+        [(ngModel)]="prestamo.cantidad"
+        name="cantidad"
+        type="number"
+        placeholder="Cantidad"
+      ></ion-input>
+    </div>
+
+    <!-- Fecha de devolución -->
+    <div class="form-group">
+       <ion-label>Fecha Devolucion</ion-label>
+      <ion-input
+        [(ngModel)]="prestamo.fechaDevolucion"
+        name="fechaDevolucion"
+        type="date"
+        
+      ></ion-input>
+    </div>
+
+    <!-- Botones -->
+    <div class="botones-container">
+      <ion-button fill="outline" class="btn-cancelar" (click)="cerrarModal()">
+        Cancelar
+      </ion-button>
+
+      <ion-button fill="solid" class="btn-aceptar" (click)="aceptar()">
+        Aceptar
+      </ion-button>
+    </div>
+
+
+  </form>
+</div>

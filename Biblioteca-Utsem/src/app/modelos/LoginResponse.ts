@@ -74,3 +74,49 @@ export interface Libros {
   categoriaNombre: string;
   estatus: 'ACTIVO' | 'INACTIVO';
 }
+
+
+
+export interface Prestamo {
+  id: string;
+  alumnoNombre: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  matricula: string;
+  carreraNombre: string;
+  libroTitulo: string;
+  cantidad: number;
+  fechaPrestamo: string;      // o Date si prefieres
+  fechaDevolucion: string;    // o Date si prefieres
+  estatus: string;            // libre
+}
+
+
+
+export interface PrestamoCrear {
+  alumnoId: string;
+  libroId: string;
+  cantidad: number;
+  cantidadDevuelta: number;
+  fechaDevolucion: string;
+  estatus: string;  // lo dejas libre como pediste
+}
+
+
+export interface PrestamoCre {
+  alumnoId: string;
+  libroId: string;
+  cantidad: number;
+  fechaDevolucion: string; // YYYY-MM-DD
+}
+
+export interface PrestamoRespuesta {
+  id: string;
+  alumnoId: string;
+  libroId: string;
+  cantidad: number;
+  cantidadDevuelta: number;
+  fechaPrestamo: string;
+  fechaDevolucion: string;
+  estatus: string;
+}

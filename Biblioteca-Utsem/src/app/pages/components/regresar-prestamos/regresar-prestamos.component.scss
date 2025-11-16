@@ -1,0 +1,67 @@
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  background: white;
+  padding: 0;
+  position: relative;
+  border-radius: 12px;
+}
+
+/* scroll interno */
+.modal-scroll {
+  overflow-y: auto;
+  padding: 25px;
+  flex: 1;
+}
+
+/* Form inputs */
+.form-group .custom-input {
+  --background: #f4f4f4;
+  --padding-start: 14px;
+  --padding-end: 14px;
+  --color: #222;
+  border-radius: 8px;
+  min-height: 55px;
+}
+
+/* Estilo del título */
+.modal-titulo {
+  font-size: 1.7rem;
+  margin-bottom: 20px;
+}
+
+/* BOTONES SIEMPRE VISIBLES */
+.botones-container {
+  padding: 15px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  border-top: 1px solid #eee;
+  background: white;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}
+
+/* Estilos correctos para ionic */
+.btn-cancelar {
+  --background: transparent;
+  --color: #444;
+  --border-color: #999;
+  --border-width: 1px;
+}
+
+.btn-aceptar {
+  --background: #4CAF50;
+  --color: white;
+}
+
+/* Hover */
+.btn-aceptar:hover {
+  --background: #43a047;
+}
+
+.btn-cancelar:hover {
+  background: #e9e9e9;
+}

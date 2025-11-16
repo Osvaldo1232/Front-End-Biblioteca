@@ -5,13 +5,15 @@ import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { ModalesRegistrarCategoriaComponent } from '../components/modales-registrar-categoria/modales-registrar-categoria.component';
 import { Categoria } from 'src/app/modelos/LoginResponse';
 import { SerivicosService } from 'src/app/Servicios/serivicos-service';
+import { Loading } from 'src/app/shared/loading/loading';
+import { LoadingService } from 'src/app/shared/loading-service';
 
 @Component({
   selector: 'app-categorias-component',
   templateUrl: './categorias-component.component.html',
   styleUrls: ['./categorias-component.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule],
+  imports: [CommonModule, FormsModule, IonicModule, Loading],
 })
 export class CategoriasComponentComponent implements OnInit {
   searchTerm: string = '';
@@ -21,7 +23,8 @@ export class CategoriasComponentComponent implements OnInit {
   constructor(
     private modalController: ModalController,
     private toastController: ToastController,
-    private categoriasService: SerivicosService
+    private categoriasService: SerivicosService,
+    private loadingService: LoadingService,
   ) {}
 
   ngOnInit() {
@@ -29,18 +32,16 @@ export class CategoriasComponentComponent implements OnInit {
   }
 
   cargarCategorias() {
+    this.loadingService.show();
     this.categoriasService.obtenerCategorias().subscribe({
       next: (data) => {
         this.categorias = data;
         this.filteredCategorias = [...data];
+        this.loadingService.hide();
       },
       error: async () => {
-        const toast = await this.toastController.create({
-          message: 'Error al cargar las categorías',
-          duration: 2000,
-          color: 'danger',
-        });
-        await toast.present();
+               this.loadingService.hide();
+
       },
     });
   }

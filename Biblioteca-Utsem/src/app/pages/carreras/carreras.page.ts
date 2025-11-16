@@ -6,6 +6,8 @@ import { IonicModule } from '@ionic/angular'; // Módulo principal de Ionic
 import { ModalRegistrarCarreraComponent } from '../components/estudiantes-registrados/modal-registrar-carrera/modal-registrar-carrera.component';
 import { SerivicosService } from 'src/app/Servicios/serivicos-service';
 import { Carrera } from 'src/app/modelos/LoginResponse';
+import { Loading } from 'src/app/shared/loading/loading';
+import { LoadingService } from 'src/app/shared/loading-service';
 
 
 @Component({
@@ -14,7 +16,7 @@ import { Carrera } from 'src/app/modelos/LoginResponse';
   styleUrls: ['./carreras.page.scss'],
   standalone: true,
   imports: [FormsModule, // ¡Importante! Para el manejo del ion-toggle
-    IonicModule, CommonModule]
+    IonicModule, CommonModule, Loading]
 })
 export class CarrerasPage implements OnInit {
 
@@ -27,7 +29,8 @@ carreras: Carrera[] = [];
     private alertController: AlertController,
     private modalController: ModalController,
     private toastController: ToastController,
-    private carrerasService:SerivicosService
+    private carrerasService:SerivicosService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit() {
@@ -132,6 +135,7 @@ cambiarEstado(carrera: Carrera) {
 
 
   cargarCarreras() {
+    this.loadingService.show();
     this.carrerasService.obtenerCarreras().subscribe({
       next: (data) => {
         this.carreras = data.map(c => ({
@@ -139,9 +143,12 @@ cambiarEstado(carrera: Carrera) {
           activo: c.estatus === 'ACTIVO'
         }));
         this.carrerasFiltradas = [...this.carreras];
+
+this.loadingService.hide();
+
       },
       error: (err) => {
-        console.error('Error al cargar carreras:', err);
+this.loadingService.hide();
       }
     });
   }

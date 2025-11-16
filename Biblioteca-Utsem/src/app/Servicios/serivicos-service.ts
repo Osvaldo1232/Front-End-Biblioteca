@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Autor, Carrera, Categoria, Estudiante, Libro, Libros, LoginResponse } from '../modelos/LoginResponse';
+import { Autor, Carrera, Categoria, Estudiante, Libro, Libros, LoginResponse, Prestamo, PrestamoCre, PrestamoCrear, PrestamoRespuesta } from '../modelos/LoginResponse';
 @Injectable({
   providedIn: 'root'
 })
 export class SerivicosService {
   
  private baseUrl = 'http://localhost:8000';
+private apiUrl = 'http://localhost:8000/prestamos';
+ private baseUrP = 'http://localhost:8000/prestamos/detalles';
+
  private baseUrlLI = 'http://localhost:8000/libros';
 
  private baseUrlc = 'http://localhost:8000/carreras';
@@ -87,6 +90,10 @@ actualizarCarrera(id: string, carrera: Carrera): Observable<Carrera> {
     return this.http.get<Categoria[]>(this.baseUrlC);
   }
 
+    obtenerPrestamos(): Observable<Prestamo[]> {
+    return this.http.get<Prestamo[]>(this.baseUrP);
+  }
+
   crearCategoria(categoria: Partial<Categoria>): Observable<Categoria> {
     return this.http.post<Categoria>(this.baseUrlC, categoria);
   }
@@ -115,5 +122,38 @@ actualizarCarrera(id: string, carrera: Carrera): Observable<Carrera> {
   }
   actualizarAutor(id: string, autor: Autor): Observable<Autor> {
     return this.http.put<Autor>(`${this.baseUrlAu}/${id}`, autor);
+  }
+
+  registrarPrestamo(data: PrestamoCre): Observable<PrestamoRespuesta> {
+    return this.http.post<PrestamoRespuesta>(this.apiUrl, data);
+  }
+
+  devolverPrestamo(idPrestamo: string, idLibro: string, cantidadDevuelta: number) {
+  const url = `${this.apiUrl}/${idPrestamo}/devolver`;
+
+  const params = {
+    cantidadDevuelta: cantidadDevuelta,
+    idLibro: idLibro
+  };
+
+  return this.http.put(url, null, { params });
+}
+
+ buscarPrestamos(
+    fechaPrestamo: string,
+    alumnoNombre: string,
+    libroTitulo: string,
+    
+    estatus: string = 'VENCIDO'
+  ): Observable<any> {
+
+    let params = new HttpParams();
+
+    if (fechaPrestamo) params = params.set('fechaPrestamo', fechaPrestamo);
+    if (alumnoNombre) params = params.set('alumnoNombre', alumnoNombre);
+    if (libroTitulo) params = params.set('libroTitulo', libroTitulo);
+    if (estatus) params = params.set('estatus', estatus);
+
+    return this.http.get(`${this.apiUrl}/buscar`, { params });
   }
 }

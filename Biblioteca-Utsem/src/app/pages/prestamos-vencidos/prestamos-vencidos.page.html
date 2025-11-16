@@ -1,30 +1,22 @@
-
-
 <ion-content class="ion-padding">
   <div class="container">
-    <h1 class="titulo-principal">PRESTAMOS VENCIDOS</h1>
+    <h1 class="titulo-principal">PRÉSTAMOS VENCIDOS</h1>
 
     <!-- Filtros -->
     <div class="filtros-container">
       <div class="filtro-item">
-        <ion-label class="filtro-label">Fecha Prestamo:</ion-label>
+        <ion-label class="filtro-label">Fecha Préstamo:</ion-label>
         <ion-input
           [(ngModel)]="fechaPrestamo"
           type="date"
           class="custom-input"
-          placeholder="Seleccionar fecha"
         ></ion-input>
       </div>
 
-      <div class="filtro-item">
+            <div class="filtro-item">
         <ion-label class="filtro-label">Alumno:</ion-label>
-        <ion-select
-          [(ngModel)]="alumnoSeleccionado"
-          interface="popover"
-          class="custom-select"
-          placeholder="Seleccionar alumno"
-        >
-          <ion-select-option value="">Todos</ion-select-option>
+        <ion-select [(ngModel)]="alumnoSeleccionado" interface="popover">
+          <ion-select-option value="">Seleccionar  Alumno</ion-select-option>
           <ion-select-option *ngFor="let alumno of alumnos" [value]="alumno">
             {{ alumno }}
           </ion-select-option>
@@ -33,71 +25,65 @@
 
       <div class="filtro-item">
         <ion-label class="filtro-label">Libro:</ion-label>
-        <ion-select
-          [(ngModel)]="libroSeleccionado"
-          interface="popover"
-          class="custom-select"
-          placeholder="Seleccionar libro"
-        >
-          <ion-select-option value="">Todos</ion-select-option>
+        <ion-select [(ngModel)]="libroSeleccionado" interface="popover">
+          <ion-select-option value="">Seleccionar  Libro</ion-select-option>
           <ion-select-option *ngFor="let libro of libros" [value]="libro">
             {{ libro }}
           </ion-select-option>
         </ion-select>
       </div>
 
-      <div class="filtro-item">
-        <ion-label class="filtro-label">Carrera</ion-label>
-        <ion-select
-          [(ngModel)]="carreraSeleccionada"
-          interface="popover"
-          class="custom-select"
-          placeholder="Seleccionar carrera"
-        >
-          <ion-select-option value="">Todas</ion-select-option>
-          <ion-select-option *ngFor="let carrera of carreras" [value]="carrera">
-            {{ carrera }}
-          </ion-select-option>
-        </ion-select>
-      </div>
+     
+
 
       <div class="boton-buscar-container">
-        <ion-button
-          fill="solid"
-         
-          class="btn-buscar"
-          (click)="buscarPrestamos()"
-        >
+        <ion-button class="btn-buscar" (click)="buscarPrestamos()">
           Buscar
+        </ion-button>
+         <ion-button class="btn-buscar" (click)="limpiarFiltros()">
+          Limpiar
         </ion-button>
       </div>
     </div>
 
-    <!-- Grid de préstamos -->
+    <!-- GRID DE PRÉSTAMOS -->
     <ion-grid class="prestamos-grid">
       <ion-row>
-        <ion-col size="12" size-md="6" size-lg="4" *ngFor="let prestamo of prestamosFiltrados">
+        <ion-col size="12" size-md="6" size-lg="4"
+                 *ngFor="let prestamo of prestamosFiltrados">
+
           <ion-card class="prestamo-card">
             <ion-card-content>
-              <h2 class="libro-titulo">{{ prestamo.titulo }}</h2>
-              <div class="separador"></div>
               
+              <!-- LIBRO -->
+              <h2 class="libro-titulo">{{ prestamo.libroTitulo }}</h2>
+
+              <div class="separador"></div>
+
+              <!-- INFORMACIÓN DEL PRÉSTAMO -->
               <div class="info-prestamo">
-                <p><strong>Matricula:</strong>{{ prestamo.matricula }}</p>
-                <p><strong>Alumno:</strong> {{ prestamo.alumno }}</p>
-                <p><strong>Carrera:</strong>{{ prestamo.carrera }}</p>
-                <p><strong>Fecha Prestamo:</strong> {{ prestamo.fechaPrestamo }}</p>
+                <p><strong>Matrícula:</strong> {{ prestamo.matricula }}</p>
+                <p>
+                  <strong>Alumno:</strong>
+                  {{ prestamo.alumnoNombre }} {{ prestamo.apellidoPaterno }} {{ prestamo.apellidoMaterno }}
+                </p>
+                <p><strong>Carrera:</strong> {{ prestamo.carreraNombre }}</p>
+                <p><strong>Fecha Préstamo:</strong> {{ prestamo.fechaPrestamo }}</p>
                 <p><strong>Fecha Devolución:</strong> {{ prestamo.fechaDevolucion }}</p>
               </div>
+
             </ion-card-content>
           </ion-card>
+
         </ion-col>
       </ion-row>
     </ion-grid>
 
-    <!-- Mensaje cuando no hay resultados -->
+    <!-- SIN RESULTADOS -->
     <div *ngIf="prestamosFiltrados.length === 0" class="no-resultados">
       <p>No se encontraron préstamos vencidos</p>
     </div>
+
   </div>
 </ion-content>
+<app-loading></app-loading>
