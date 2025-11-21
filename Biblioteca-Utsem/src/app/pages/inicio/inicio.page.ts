@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { SerivicosService } from 'src/app/Servicios/serivicos-service';
+import { AuthStateService } from 'src/app/Servicios/auth-state-service';
 
 @Component({
   selector: 'app-inicio',
@@ -15,13 +16,14 @@ export class InicioPage implements OnInit {
   sidebarVisible: boolean = true;
   isMobile: boolean = false;
 
-  constructor(private router: Router, private loginService: SerivicosService) {}
+  usuario:any;
+  constructor(private router: Router, private loginService: SerivicosService, private authState: AuthStateService ) {}
 
   ngOnInit() {
     this.checkScreenSize();
+
   }
 
-  // Detecta cuando cambia el tamaño de pantalla
   @HostListener('window:resize', [])
   onResize() {
     this.checkScreenSize();
@@ -29,14 +31,13 @@ export class InicioPage implements OnInit {
 
   checkScreenSize() {
     this.isMobile = window.innerWidth <= 768;
-    this.sidebarVisible = !this.isMobile; // ocultar en móvil, mostrar en escritorio
+    this.sidebarVisible = !this.isMobile; 
   }
 
   toggleSidebar() {
     this.sidebarVisible = !this.sidebarVisible;
   }
 
-  // Cierra el sidebar si estamos en móvil
   closeSidebarOnMobile() {
     if (this.isMobile) {
       this.sidebarVisible = false;
@@ -45,6 +46,6 @@ export class InicioPage implements OnInit {
 
     logout(): void {
     this.loginService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/home']);
   }
 }

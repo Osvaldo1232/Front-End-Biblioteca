@@ -3,22 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { SerivicosService } from 'src/app/Servicios/serivicos-service';
-import { Observable } from 'rxjs';
 import { LoadingService } from 'src/app/shared/loading-service';
 import { Loading } from 'src/app/shared/loading/loading';
-
-interface Estudiante {
-  nombre: string;
-  apellidoPaterno: string;
-  apellidoMaterno: string;
-  matricula: string;
-}
-interface Carrera {
-  nombre: string;
-}
-interface Libro {
-  titulo: string;
-}
 
 @Component({
   selector: 'app-prestamos-vencidos',
@@ -31,6 +17,7 @@ export class PrestamosVencidosPage implements OnInit {
 
   prestamos: any[] = [];
   prestamosFiltrados: any[] = [];
+  prestamosPaginados: any[] = [];
 
   fechaPrestamo = '';
   alumnoSeleccionado = '';
@@ -41,7 +28,15 @@ export class PrestamosVencidosPage implements OnInit {
   libros: string[] = [];
   carreras: string[] = [];
 
-  constructor(private prestamosService: SerivicosService,      private loadingService: LoadingService
+  // PAGINACIÓN
+  paginaActual = 1;
+  itemsPorPagina = 6;
+  totalPaginas = 1;
+  paginasArray: number[] = [];
+
+  constructor(
+    private prestamosService: SerivicosService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit() {
@@ -64,8 +59,8 @@ export class PrestamosVencidosPage implements OnInit {
   }
 
   buscarPrestamos() {
+    this.loadingService.show();
 
-this.loadingService.show();
     this.prestamosService.buscarPrestamos(
       this.fechaPrestamo,
       this.alumnoSeleccionado,
@@ -75,6 +70,7 @@ this.loadingService.show();
       next: (data) => {
         this.prestamos = data;
         this.prestamosFiltrados = data;
+        this.configurarPaginacion();
         this.loadingService.hide();
       },
       error: (err) => {
@@ -89,5 +85,51 @@ this.loadingService.show();
     this.libroSeleccionado = '';
     this.carreraSeleccionada = '';
     this.buscarPrestamos();
+  }
+
+  // -----------------------
+  //     PAGINACIÓN
+  // -----------------------
+
+  configurarPaginacion() {
+    this.totalPaginas = Math.ceil(this.prestamosFiltrados.length / this.itemsPorPagina);
+    this.paginasArray = Array.from({ length: this.totalPaginas }, (_, i) => i + 1);
+    this.paginaActual = 1;
+    this.actualizarPagina();
+  }
+
+  actualizarPagina() {
+    const inicio = (this.paginaActual - 1) * this.itemsPorPagina;
+    const fin = inicio + this.itemsPorPagina;
+    this.prestamosPaginados = this.prestamosFiltrados.slice(inicio, fin);
+  }
+
+  paginaAnterior() {
+    if (this.paginaActual > 1) {
+      this.paginaActual--;
+      this.actualizarPagina();
+    }
+  }
+
+  paginaSiguiente() {
+    if (this.paginaActual < this.totalPaginas) {
+      this.paginaActual++;
+      this.actualizarPagina();
+    }
+  }
+
+  irPagina(pagina: number) {
+    this.paginaActual = pagina;
+    this.actualizarPagina();
+  }
+
+  irPrimera() {
+    this.paginaActual = 1;
+    this.actualizarPagina();
+  }
+
+  irUltima() {
+    this.paginaActual = this.totalPaginas;
+    this.actualizarPagina();
   }
 }

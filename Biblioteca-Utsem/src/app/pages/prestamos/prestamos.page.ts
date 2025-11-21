@@ -9,8 +9,6 @@ import { RegistrarPrestamoComponent } from '../components/registrar-prestamo/reg
 import { RegresarPrestamosComponent } from '../components/regresar-prestamos/regresar-prestamos.component';
 import { LoadingService } from 'src/app/shared/loading-service';
 import { Loading } from 'src/app/shared/loading/loading';
-// IMPORTA tu modal de registrar préstamo cuando lo tengas
-// import { ModalRegistrarPrestamoComponent } from '../components/...';
 
 @Component({
   selector: 'app-prestamos',
@@ -24,12 +22,19 @@ export class PrestamosPage implements OnInit {
   searchTerm: string = "";
   prestamos: Prestamo[] = [];
   prestamosFiltrados: Prestamo[] = [];
+  prestamosPaginados: Prestamo[] = [];
+
+  // PAGINACIÓN
+  paginaActual = 1;
+  elementosPorPagina = 10;
+  totalPaginas = 0;
+  paginasArray: number[] = [];
 
   constructor(
     private modalController: ModalController,
     private toastController: ToastController,
     private servicio: SerivicosService,
-     private loadingService: LoadingService
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit() {
@@ -42,62 +47,121 @@ export class PrestamosPage implements OnInit {
       next: (resp) => {
         this.prestamos = resp;
         this.prestamosFiltrados = [...this.prestamos];
+
+        this.actualizarPaginacion();
+
         this.loadingService.hide();
       },
       error: (err) => console.error("Error al cargar préstamos:", err)
-      
     });
-
-
   }
 
+  // -------------------
+  // BÚSQUEDA
+  // -------------------
   buscar() {
-    if (this.searchTerm.trim() === "") {
+    const texto = this.searchTerm.trim().toLowerCase();
+
+    if (texto === "") {
       this.prestamosFiltrados = [...this.prestamos];
-      return;
+    } else {
+      this.prestamosFiltrados = this.prestamos.filter(p =>
+        (p.alumnoNombre + ' ' + p.apellidoPaterno + ' ' + p.apellidoMaterno).toLowerCase().includes(texto) ||
+        p.matricula.toLowerCase().includes(texto) ||
+        p.libroTitulo.toLowerCase().includes(texto)
+      );
     }
 
-    const busqueda = this.searchTerm.toLowerCase();
-
-    this.prestamosFiltrados = this.prestamos.filter(p =>
-      (p.alumnoNombre + ' ' + p.apellidoPaterno + ' ' + p.apellidoMaterno).toLowerCase().includes(busqueda) ||
-      p.matricula.toLowerCase().includes(busqueda) ||
-      p.libroTitulo.toLowerCase().includes(busqueda)
-    );
+    this.paginaActual = 1;
+    this.actualizarPaginacion();
   }
 
   limpiar() {
     this.searchTerm = "";
     this.prestamosFiltrados = [...this.prestamos];
+    this.paginaActual = 1;
+    this.actualizarPaginacion();
   }
 
+  // -------------------
+  // PAGINACIÓN
+  // -------------------
+  actualizarPaginacion() {
+    this.totalPaginas = Math.ceil(this.prestamosFiltrados.length / this.elementosPorPagina);
+
+    this.paginasArray = Array.from({ length: this.totalPaginas }, (_, i) => i + 1);
+
+    this.actualizarPrestamosPaginados();
+  }
+
+  actualizarPrestamosPaginados() {
+    const inicio = (this.paginaActual - 1) * this.elementosPorPagina;
+    const fin = inicio + this.elementosPorPagina;
+
+    this.prestamosPaginados = this.prestamosFiltrados.slice(inicio, fin);
+  }
+
+  irPagina(pagina: number) {
+    this.paginaActual = pagina;
+    this.actualizarPrestamosPaginados();
+  }
+
+  paginaAnterior() {
+    if (this.paginaActual > 1) {
+      this.paginaActual--;
+      this.actualizarPrestamosPaginados();
+    }
+  }
+
+  paginaSiguiente() {
+    if (this.paginaActual < this.totalPaginas) {
+      this.paginaActual++;
+      this.actualizarPrestamosPaginados();
+    }
+  }
+
+  irPrimera() {
+    this.paginaActual = 1;
+    this.actualizarPrestamosPaginados();
+  }
+
+  irUltima() {
+    this.paginaActual = this.totalPaginas;
+    this.actualizarPrestamosPaginados();
+  }
+
+  // -------------------
+  // EDITAR
+  // -------------------
   async editarPrestamo(prestamo: Prestamo) {
     const modal = await this.modalController.create({
       component: RegresarPrestamosComponent,
       componentProps: { prestamoEditar: prestamo },
       backdropDismiss: false
     });
+
     await modal.present();
-    this.cargarPrestamos();
-  
-  }
 
-  eliminarPrestamo(prestamo: Prestamo) {
-    console.log("Eliminar:", prestamo);
-  }
-
- async nuevoPrestamo() {
-  const modal = await this.modalController.create({
-    component: RegistrarPrestamoComponent,
-    cssClass: 'modal-registrar-prestamo',
-    backdropDismiss: false
-  });
-
-  await modal.present();
-
-  const { data } = await modal.onWillDismiss();
+    const { data } = await modal.onWillDismiss();
 
     this.cargarPrestamos();
-}
+  }
+
+  // -------------------
+  // NUEVO
+  // -------------------
+  async nuevoPrestamo() {
+    const modal = await this.modalController.create({
+      component: RegistrarPrestamoComponent,
+      cssClass: 'modal-registrar-prestamo',
+      backdropDismiss: false
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    this.cargarPrestamos();
+  }
 
 }

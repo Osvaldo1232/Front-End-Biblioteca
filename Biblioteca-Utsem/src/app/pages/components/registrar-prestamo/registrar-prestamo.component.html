@@ -17,14 +17,13 @@
         name="alumnoId"
         interface="alert"
         [interfaceOptions]="alertOptionsAlumnos"
-        (ionChange)="filtrarAlumnos(buscarAlumno)"
         placeholder="Seleccionar Alumno"
       >
         <ion-select-option
-          *ngFor="let a of alumnosFiltrados"
+          *ngFor="let a of alumnos"
           [value]="a.id"
         >
-          {{ a.nombre }} {{ a.apellidoPaterno }} {{ a.apellidoMaterno }}
+          {{ a.titulo }}
         </ion-select-option>
       </ion-select>
     </div>
@@ -38,11 +37,10 @@
         name="libroId"
         interface="alert"
         [interfaceOptions]="alertOptionsLibros"
-        (ionChange)="filtrarLibros(buscarLibro)"
         placeholder="Seleccionar Libro"
       >
         <ion-select-option
-          *ngFor="let l of librosFiltrados"
+          *ngFor="let l of libros"
           [value]="l.id"
         >
           {{ l.titulo }}

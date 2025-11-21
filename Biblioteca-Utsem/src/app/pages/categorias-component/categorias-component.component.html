@@ -9,9 +9,9 @@
         class="input-buscar">
       </ion-input>
 
-      <ion-button (click)="buscar()">Buscar</ion-button>
-      <ion-button (click)="limpiar()">Limpiar</ion-button>
-      <ion-button (click)="nuevaCategoria()">+ Nueva</ion-button>
+        <ion-button (click)="buscar()">Buscar</ion-button>
+        <ion-button (click)="limpiar()">Limpiar</ion-button>
+        <ion-button (click)="nuevaCategoria()">+ Nueva</ion-button>
     </div>
 
     <div class="tabla-contenedor">
@@ -24,8 +24,7 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let c of filteredCategorias; let i = index" [class.par]="i % 2 === 0">
-           
+          <tr *ngFor="let c of categoriasPaginadas; let i = index" [class.par]="i % 2 === 0">
             <td>{{ c.nombre }}</td>
             <td class="acciones">
               <ion-icon name="create-outline" (click)="editarCategoria(c)" style="cursor:pointer; margin-right: 10px;"></ion-icon>
@@ -34,8 +33,31 @@
         </tbody>
       </table>
     </div>
+
+    <!-- PAGINACIÓN CON << >> -->
+    <div class="paginacion">
+      
+      <ion-button 
+        (click)="currentPage = currentPage - 1" 
+        [disabled]="currentPage === 1"
+        class="btn-pag">
+        &laquo;
+      </ion-button>
+
+      <span class="pagina-info">
+        {{ currentPage }} / {{ totalPages }}
+      </span>
+
+      <ion-button 
+        (click)="currentPage = currentPage + 1" 
+        [disabled]="currentPage === totalPages"
+        class="btn-pag">
+        &raquo;
+      </ion-button>
+
+    </div>
+
   </div>
 </ion-content>
 
 <app-loading></app-loading>
-

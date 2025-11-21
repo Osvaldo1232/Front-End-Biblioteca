@@ -1,3 +1,6 @@
+/* ================================
+   CONTENEDOR GENERAL
+================================ */
 .contenedor {
   max-width: 1400px;
   margin: 0 auto;
@@ -15,36 +18,52 @@
   font-family: 'Georgia', serif;
 }
 
+/* ================================
+   BARRA DE BÚSQUEDA
+================================ */
 .barra-busqueda {
   display: flex;
-  gap: 10px;
-  margin-bottom: 30px;
   align-items: center;
-  flex-wrap: wrap;
+  margin-bottom: 30px;
+  gap: 15px;
+  flex-wrap: nowrap;
+}
 
-  .input-buscar {
-    flex: 1;
-    min-width: 250px;
-    --background: #e8e8e8;
-    --border-radius: 8px;
-    padding: 0 16px;
-  }
+.barra-busqueda .input-buscar {
+  flex: 1;
+  min-width: 300px;
+  height: 44px;
 
-  ion-button {
-    --background: #AAC5A8;
-    --background-hover: #9ab59a;
-    --background-activated: #8aa588;
-    --border-radius: 8px;
-    height: 44px;
-    text-transform: none;
-    font-weight: 400;
+  --background: #e8e8e8;
+  --border-radius: 8px;
+  border-radius: 8px;
+  padding: 0 16px;
+}
 
-    &:hover {
-      --background: #9ab59a;
-    }
+/* Botones a la derecha */
+.barra-busqueda .botones-derecha {
+  display: flex;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.barra-busqueda ion-button {
+  --background: #AAC5A8;
+  --background-hover: #9ab59a;
+  --background-activated: #8aa588;
+  --border-radius: 8px;
+  height: 44px;
+  text-transform: none;
+  font-weight: 400;
+
+  &:hover {
+    --background: #9ab59a;
   }
 }
 
+/* ================================
+   TABLA
+================================ */
 .tabla-contenedor {
   background: white;
   border-radius: 8px;
@@ -56,59 +75,92 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
-
-  thead {
-    background-color: #e0e0e0;
-
-    th {
-      padding: 16px 12px;
-      text-align: left;
-      font-weight: 600;
-      color: #2c3e50;
-      font-size: 0.85rem;
-      letter-spacing: 1px;
-      border-bottom: 2px solid #d0d0d0;
-    }
-  }
-
-  tbody {
-    tr {
-      transition: background-color 0.2s;
-
-      &:hover {
-        background-color: #f9f9f9 !important;
-      }
-
-      &.par {
-        background-color: #f5f5f5;
-      }
-
-      td {
-        padding: 14px 12px;
-        color: #333;
-        border-bottom: 1px solid #e8e8e8;
-        vertical-align: middle;
-
-        &.acciones {
-          text-align: center;
-          white-space: nowrap;
-
-          ion-icon {
-            font-size: 20px;
-            cursor: pointer;
-            margin-right: 10px;
-
-            &:last-child {
-              margin-right: 0;
-            }
-          }
-        }
-      }
-    }
-  }
 }
 
-// Responsive
+table thead {
+  background-color: #e0e0e0;
+}
+
+table thead th {
+  padding: 16px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #d0d0d0;
+}
+
+table tbody tr {
+  transition: background-color 0.2s;
+}
+
+table tbody tr:hover {
+  background-color: #f9f9f9 !important;
+}
+
+table tbody tr.par {
+  background-color: #f5f5f5;
+}
+
+table tbody td {
+  padding: 14px 12px;
+  color: #333;
+  border-bottom: 1px solid #e8e8e8;
+  vertical-align: middle;
+}
+
+table tbody td.acciones {
+  text-align: center;
+  white-space: nowrap;
+}
+
+table tbody td.acciones ion-icon {
+  font-size: 20px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+table tbody td.acciones ion-icon:last-child {
+  margin-right: 0;
+}
+
+/* ================================
+   PAGINACIÓN
+================================ */
+.paginacion {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.paginacion button {
+  background: #f1f1f1;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  margin: 3px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.paginacion button:hover {
+  background: #ddd;
+}
+
+.paginacion button.activa {
+  background: #3880ff;
+  color: white;
+  font-weight: bold;
+  border-color: #3880ff;
+}
+
+.paginacion button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
 @media (max-width: 768px) {
   .titulo {
     font-size: 1.5rem;
@@ -117,14 +169,20 @@ table {
 
   .barra-busqueda {
     flex-direction: column;
+    align-items: stretch;
+  }
 
-    .input-buscar {
-      width: 100%;
-    }
+  .barra-busqueda .input-buscar {
+    width: 100%;
+  }
 
-    ion-button {
-      width: 100%;
-    }
+  .barra-busqueda .botones-derecha {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .barra-busqueda .botones-derecha ion-button {
+    flex: 1;
   }
 
   .tabla-contenedor {
@@ -135,38 +193,40 @@ table {
   table {
     min-width: 800px;
     font-size: 0.85rem;
+  }
 
-    thead th {
-      padding: 12px 8px;
-      font-size: 0.8rem;
-    }
+  table thead th {
+    padding: 12px 8px;
+    font-size: 0.8rem;
+  }
 
-    tbody td {
-      padding: 10px 8px;
-    }
+  table tbody td {
+    padding: 10px 8px;
   }
 }
 
 @media (max-width: 480px) {
   table {
     font-size: 0.8rem;
+  }
 
-    thead th {
-      padding: 10px 6px;
-      font-size: 0.75rem;
-    }
+  table thead th {
+    padding: 10px 6px;
+    font-size: 0.75rem;
+  }
 
-    tbody td {
-      padding: 8px 6px;
-    }
+  table tbody td {
+    padding: 8px 6px;
+  }
 
-    .acciones ion-icon {
-      font-size: 18px;
-    }
+  .acciones ion-icon {
+    font-size: 18px;
   }
 }
 
-// Tema oscuro
+/* ================================
+   TEMA OSCURO
+================================ */
 @media (prefers-color-scheme: dark) {
   .contenedor {
     background-color: #1a1a1a;
@@ -184,39 +244,33 @@ table {
     background: #2c2c2c;
   }
 
-  table {
-    thead {
-      background-color: #3a3a3a;
+  table thead {
+    background-color: #3a3a3a;
+  }
 
-      th {
-        color: #e0e0e0;
-        border-bottom-color: #555;
-      }
-    }
+  table thead th {
+    color: #e0e0e0;
+    border-bottom-color: #555;
+  }
 
-    tbody {
-      tr {
-        &:hover {
-          background-color: #3a3a3a !important;
-        }
+  table tbody tr:hover {
+    background-color: #3a3a3a !important;
+  }
 
-        &.par {
-          background-color: #2c2c2c;
-        }
+  table tbody tr.par {
+    background-color: #2c2c2c;
+  }
 
-        td {
-          color: #d0d0d0;
-          border-bottom-color: #444;
-        }
-      }
-    }
+  table tbody td {
+    color: #d0d0d0;
+    border-bottom-color: #444;
   }
 
   .acciones ion-icon {
     --color: #d0d0d0;
+  }
 
-    &:hover {
-      --color: #fff;
-    }
+  .acciones ion-icon:hover {
+    --color: #fff;
   }
 }

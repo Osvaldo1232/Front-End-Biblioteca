@@ -12,6 +12,11 @@ export interface Carrera {
   activo?: boolean;
 }
 
+export interface Combo {
+  id: string;      
+  titulo: string;
+}
+
 
 export interface Estudiante {
   id?: string;
@@ -66,7 +71,8 @@ export interface Libro {
 export interface Libros {
   id: string;
   titulo: string;
-  autores: string[];               // Lista de nombres
+  autores: string[];    
+  autoresIds: string[];               // Lista de nombres
   anioPublicacion: number;
   editorial: string;
   copiasDisponibles: number;

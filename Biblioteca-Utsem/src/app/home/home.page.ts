@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { SerivicosService } from '../Servicios/serivicos-service';
 import { Alert } from '../shared/alert/alert';
 import { AlertService } from '../shared/alert-service';
+import { AuthStateService } from '../Servicios/auth-state-service';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -23,11 +24,12 @@ export class HomePage {
   password: string = '';
   errorMsg: string = '';
 
-  constructor(private router: Router, private authService: SerivicosService, private alert:AlertService) {}
+  constructor(private router: Router, private authService: SerivicosService, private alert:AlertService,private authState: AuthStateService ) {}
 
   login() {
     this.authService.login(this.usuario, this.password).subscribe({
-      next: () => {
+      next: (res) => {
+           this.authState.setUsuario(res);
         this.router.navigate(['/inicio']);
       },
       error: (err) => {

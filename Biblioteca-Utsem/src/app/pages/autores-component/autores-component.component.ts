@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { ModalesRegistrarAutoresComponent } from '../components/modales-registrar-autores/modales-registrar-autores.component';
 import { SerivicosService } from 'src/app/Servicios/serivicos-service';
 import { Autor } from 'src/app/modelos/LoginResponse';
@@ -13,19 +13,23 @@ import { Loading } from 'src/app/shared/loading/loading';
   templateUrl: './autores-component.component.html',
   styleUrls: ['./autores-component.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule,Loading],
+  imports: [CommonModule, FormsModule, IonicModule, Loading],
 })
 export class AutoresComponentComponent implements OnInit {
+
   searchTerm: string = '';
   autores: Autor[] = [];
   filteredAutores: Autor[] = [];
 
+  // 📌 PAGINACIÓN
+  pageSize: number = 10;
+  currentPage: number = 1;
+  totalPages: number = 1;
+
   constructor(
     private modalController: ModalController,
-    private toastController: ToastController,
     private autoresService: SerivicosService,
-        private loadingService: LoadingService,
-    
+    private loadingService: LoadingService,
   ) {}
 
   ngOnInit() {
@@ -38,13 +42,27 @@ export class AutoresComponentComponent implements OnInit {
       next: (data) => {
         this.autores = data;
         this.filteredAutores = [...data];
+        this.actualizarPaginacion();
         this.loadingService.hide();
       },
       error: async () => {
-                this.loadingService.hide();
-
+        this.loadingService.hide();
       },
     });
+  }
+
+  // 👉 LISTA PAGINADA
+  get autoresPaginados() {
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    return this.filteredAutores.slice(start, end);
+  }
+
+  actualizarPaginacion() {
+    this.totalPages = Math.ceil(this.filteredAutores.length / this.pageSize);
+    if (this.currentPage > this.totalPages) {
+      this.currentPage = this.totalPages || 1;
+    }
   }
 
   buscar() {
@@ -59,11 +77,15 @@ export class AutoresComponentComponent implements OnInit {
         a.nacionalidad.toLowerCase().includes(term)
       );
     }
+    this.currentPage = 1;
+    this.actualizarPaginacion();
   }
 
   limpiar() {
     this.searchTerm = '';
     this.filteredAutores = [...this.autores];
+    this.currentPage = 1;
+    this.actualizarPaginacion();
   }
 
   async nuevoAutor() {
@@ -79,8 +101,6 @@ export class AutoresComponentComponent implements OnInit {
     if (data && data.autor) {
       this.autores.push(data.autor);
       this.buscar();
-
-    
     }
   }
 
@@ -97,12 +117,9 @@ export class AutoresComponentComponent implements OnInit {
 
     if (data && data.autor) {
       const index = this.autores.findIndex(a => a.id === data.autor.id);
-      if (index !== -1) {
-        this.autores[index] = data.autor;
-      }
+      if (index !== -1) this.autores[index] = data.autor;
+
       this.buscar();
     }
   }
-
-  
 }

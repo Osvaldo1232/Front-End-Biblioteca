@@ -20,7 +20,6 @@
       <table>
         <thead>
           <tr>
-            <th>ID</th>
             <th>NOMBRE</th>
             <th>APELLIDO PATERNO</th>
             <th>APELLIDO MATERNO</th>
@@ -30,8 +29,7 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let a of filteredAutores; let i = index" [class.par]="i % 2 === 0">
-            <td>{{ a.id }}</td>
+          <tr *ngFor="let a of autoresPaginados; let i = index" [class.par]="i % 2 === 0">
             <td>{{ a.nombre }}</td>
             <td>{{ a.apellidoPaterno }}</td>
             <td>{{ a.apellidoMaterno }}</td>
@@ -43,6 +41,26 @@
         </tbody>
       </table>
     </div>
+
+    <!-- PAGINACIÓN -->
+    <div class="paginacion">
+      <ion-button 
+        class="btn-pag"
+        (click)="currentPage = currentPage - 1"
+        [disabled]="currentPage === 1">
+        &laquo;
+      </ion-button>
+
+      <span class="pagina-info">{{ currentPage }} / {{ totalPages }}</span>
+
+      <ion-button 
+        class="btn-pag"
+        (click)="currentPage = currentPage + 1"
+        [disabled]="currentPage === totalPages">
+        &raquo;
+      </ion-button>
+    </div>
+
   </div>
 </ion-content>
 

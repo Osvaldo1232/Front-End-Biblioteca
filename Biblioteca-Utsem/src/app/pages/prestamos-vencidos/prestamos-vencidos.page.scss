@@ -230,3 +230,78 @@
     color: #999;
   }
 }
+/* Paginación */
+.paginacion {
+  display: flex;
+  justify-content: center;      /* CENTRADO TOTAL */
+  align-items: center;
+  gap: 8px;
+  margin: 35px auto 20px auto;  /* CENTRADO Y ESPACIADO */
+  padding: 12px 20px;
+  width: 100%;
+}
+
+.paginacion button {
+  background-color: #c89999;       /* color de tus tarjetas */
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
+  min-width: 38px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s ease-in-out;
+  font-weight: 500;
+}
+
+.paginacion button:hover:not([disabled]) {
+  background-color: #b88888;
+  transform: translateY(-2px);
+}
+
+.paginacion button[disabled] {
+  background-color: #ddd;
+  color: #777;
+  cursor: not-allowed;
+}
+
+.paginacion button.activa {
+  background-color: #8a5f5f !important;
+  font-weight: 600;
+  border: 1px solid #583d3d;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .paginacion {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .paginacion button {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .paginacion button {
+    background-color: #a07878;
+    color: #fff;
+  }
+
+  .paginacion button:hover:not([disabled]) {
+    background-color: #906868;
+  }
+
+  .paginacion button.activa {
+    background-color: #704d4d !important;
+    border-color: #5e3f3f;
+  }
+
+  .paginacion button[disabled] {
+    background-color: #444;
+    color: #777;
+  }
+}

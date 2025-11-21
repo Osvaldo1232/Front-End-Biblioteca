@@ -70,7 +70,7 @@
           *ngFor="let carrera of carreras" 
           [value]="carrera.id"
         >
-          {{ carrera.nombre }}
+          {{ carrera.titulo }}
         </ion-select-option>
       </ion-select>
     </div>
@@ -79,7 +79,7 @@
      <div class="estado-toggle-container">
       <div class="estado-toggle">
         <span class="estado-titulo">Estatus:</span>
-        <span class="estado-label">{{ estudiante.activo ? 'Activo' : 'Inactivo' }}</span>
+        <span class="estado-label">{{ estudiante.activo ? 'ACTIVO' : 'ACTIVO' }}</span>
         <ion-toggle [(ngModel)]="estudiante.activo" name="activo" color="success"></ion-toggle>
       </div>
     </div>

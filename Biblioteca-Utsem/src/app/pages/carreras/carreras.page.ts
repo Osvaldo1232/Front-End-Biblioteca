@@ -8,6 +8,7 @@ import { SerivicosService } from 'src/app/Servicios/serivicos-service';
 import { Carrera } from 'src/app/modelos/LoginResponse';
 import { Loading } from 'src/app/shared/loading/loading';
 import { LoadingService } from 'src/app/shared/loading-service';
+import { AlertaConfirmacionService } from 'src/app/shared/alerta-confirmacion-service';
 
 
 @Component({
@@ -30,7 +31,8 @@ carreras: Carrera[] = [];
     private modalController: ModalController,
     private toastController: ToastController,
     private carrerasService:SerivicosService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+     private alerta:AlertaConfirmacionService
   ) {}
 
   ngOnInit() {
@@ -98,19 +100,30 @@ carreras: Carrera[] = [];
     this.cargarCarreras();
   }
 }
+async cambiarEstado(carrera: Carrera) {
 
-cambiarEstado(carrera: Carrera) {
-  // alternar entre ACTIVO e INACTIVO
-  carrera.estatus = carrera.estatus === 'ACTIVO' ? 'INACTIVO' : 'ACTIVO';
+  const estatusAnterior = carrera.estatus; 
+  const estatusNuevo = carrera.estatus === 'ACTIVO' ? 'INACTIVO' : 'ACTIVO';
 
-  // Llamar al servicio para actualizar en el backend
+
+
+  const confirmado = await this.alerta.mostrar(
+    `¿Estás seguro de ${estatusNuevo === 'ACTIVO' ? 'activar' : 'desactivar'} la carrera ${carrera.nombre}?`
+  );
+
+  if (!confirmado) {
+    carrera.estatus = estatusAnterior;
+    return;
+  }
+
+  carrera.estatus = estatusNuevo;
+
   this.carrerasService.actualizarEstatus(carrera.id!, carrera.estatus)
     .subscribe({
       next: () => console.log('Estatus actualizado correctamente'),
       error: (err) => console.error('Error al actualizar estatus', err)
     });
 }
-
 
 
  async agregarNueva() {

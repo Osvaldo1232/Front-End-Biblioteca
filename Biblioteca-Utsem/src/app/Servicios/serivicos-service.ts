@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Autor, Carrera, Categoria, Estudiante, Libro, Libros, LoginResponse, Prestamo, PrestamoCre, PrestamoCrear, PrestamoRespuesta } from '../modelos/LoginResponse';
+import { Autor, Carrera, Categoria, Combo, Estudiante, Libro, Libros, LoginResponse, Prestamo, PrestamoCre, PrestamoCrear, PrestamoRespuesta } from '../modelos/LoginResponse';
 @Injectable({
   providedIn: 'root'
 })
@@ -38,6 +38,11 @@ actualizarCarrera(id: string, carrera: Carrera): Observable<Carrera> {
   obtenerCarreras(): Observable<Carrera[]> {
     return this.http.get<Carrera[]>(this.baseUrlc);
   }
+  obtenerCarrerasA(): Observable<Combo[]> {
+    return this.http.get<Combo[]>(`${this.baseUrlc}/activosC`);
+  }
+
+  
 
   obtenerCarreraPorId(id: string): Observable<Carrera> {
     return this.http.get<Carrera>(`${this.baseUrl}/${id}`);
@@ -75,6 +80,10 @@ actualizarCarrera(id: string, carrera: Carrera): Observable<Carrera> {
   obtenerEstudiantes(): Observable<Estudiante[]> {
     return this.http.get<Estudiante[]>(this.baseUrlA);
   }
+   obtenerEstudiantesA(): Observable<Combo[]> {
+    return this.http.get<Combo[]>(`${this.baseUrlA}/activosAL`);
+  }
+
 
   crearEstudiante(estudiante: Estudiante): Observable<Estudiante> {
     return this.http.post<Estudiante>(this.baseUrlA, estudiante);
@@ -108,6 +117,10 @@ actualizarCarrera(id: string, carrera: Carrera): Observable<Carrera> {
  actualizarLibro(id: string, payload: any) {
   return this.http.put(`${this.baseUrlLI}/${id}`, payload);
 }
+
+   obtenerLibrosA(): Observable<Combo[]> {
+    return this.http.get<Combo[]>(`${this.baseUrlLI}/activosl`);
+  }
 
    obtenerLibros(): Observable<Libros[]> {
     return this.http.get<Libros[]>(this.baseUrlLI);

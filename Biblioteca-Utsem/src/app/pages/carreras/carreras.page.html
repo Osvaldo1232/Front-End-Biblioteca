@@ -37,7 +37,7 @@
               <div class="estado-toggle">
                 <span class="estado-label">Estatus: {{ carrera.estatus }}</span>
                 <ion-toggle
-                  [(ngModel)]="carrera.estatus"
+                  [(ngModel)]="carrera.activo"
                   (ionChange)="cambiarEstado(carrera)"
                   color="success"
                 ></ion-toggle>

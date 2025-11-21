@@ -220,3 +220,31 @@ table {
     }
   }
 }
+
+
+.paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  gap: 12px;
+}
+
+.btn-pag {
+  --background: #3b3b3b;
+  --background-hover: #000;
+  --color: white;
+  font-size: 18px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  min-width: 40px;
+}
+
+.btn-pag[disabled] {
+  opacity: 0.4;
+}
+
+.pagina-info {
+  font-size: 16px;
+  font-weight: bold;
+}

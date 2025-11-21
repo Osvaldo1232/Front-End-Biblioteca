@@ -19,7 +19,7 @@ export class ModalRegistrarCarreraComponent {
   @Input() carrera: any = {
     id: null,
     nombre: '',
-    activo: true // toggle controlará esto
+    activo: true 
   };
 
   constructor(
@@ -38,7 +38,6 @@ export class ModalRegistrarCarreraComponent {
       estatus: this.carrera.activo ? 'ACTIVO' : 'INACTIVO'
     };
 
-    // Si tiene ID, es edición
     if (this.carrera.id) {
       this.carrerasService.actualizarCarrera(this.carrera.id, carreraPayload)
         .subscribe({
@@ -52,11 +51,18 @@ export class ModalRegistrarCarreraComponent {
 );
           },
           error: (err) => {
-            console.error('Error al actualizar carrera:', err);
+             if(err.status==500){
+            let mensaje = err.error.error;
+            console.log(mensaje)
+                this.alertService.show(
+  mensaje,
+  'danger',
+  'Error'
+);
+            }
           }
         });
     } else {
-      // Crear nueva carrera
       this.carrerasService.crearCarrera(carreraPayload)
         .subscribe({
           next: (resp) => {
@@ -69,7 +75,15 @@ export class ModalRegistrarCarreraComponent {
             this.modalController.dismiss({ carrera: resp });
           },
           error: (err) => {
-            console.error('Error al registrar carrera:', err);
+            if(err.status==500){
+            let mensaje = err.error.error;
+            console.log(mensaje)
+                this.alertService.show(
+  mensaje,
+  'danger',
+  'Error'
+);
+            }
           }
         });
     }

@@ -1,32 +1,29 @@
-
-
 <ion-content class="ion-padding">
   <div class="container">
     <h1 class="titulo-principal">ESTUDIANTES REGISTRADOS</h1>
 
-    <!-- Barra de búsqueda -->
+    <!-- 🔍 Barra de búsqueda -->
     <div class="barra-busqueda">
-      <ion-searchbar
+      <ion-input
         [(ngModel)]="busqueda"
-        (ionInput)="buscarEstudiante()"
         placeholder="Buscar estudiante..."
         class="custom-searchbar"
-      ></ion-searchbar>
+      ></ion-input>
 
-      <ion-button fill="solid"  (click)="buscarEstudiante()">
+      <ion-button fill="solid" (click)="buscar()">
         Buscar
       </ion-button>
 
-      <ion-button fill="solid"  (click)="limpiarBusqueda()">
+      <ion-button fill="solid" (click)="limpiar()">
         Limpiar
       </ion-button>
 
-      <ion-button fill="solid"  (click)="agregarNuevo()">
+      <ion-button fill="solid" (click)="agregarNuevo()">
         + Nuevo
       </ion-button>
     </div>
 
-    <!-- Tabla de estudiantes -->
+    <!-- 📋 Tabla -->
     <div class="tabla-container">
       <table class="tabla-estudiantes">
         <thead>
@@ -39,21 +36,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let estudiante of estudiantesFiltrados; let i = index" 
-              [class.fila-par]="i % 2 === 0"
-              [class.fila-impar]="i % 2 !== 0">
+          <tr 
+            *ngFor="let estudiante of paginaActualDatos(); let i = index" 
+            [class.fila-par]="i % 2 === 0"
+            [class.fila-impar]="i % 2 !== 0"
+          >
             <td>{{ estudiante.matricula }}</td>
             <td>{{ estudiante.nombre }}</td>
-            <td>{{ estudiante.apellidoPaterno }}</td>
+            <td>{{ estudiante.apellidoPaterno }} {{ estudiante.apellidoMaterno }}</td>
             <td>{{ estudiante.carreraNombre }}</td>
             <td class="columna-acciones">
-              <ion-button 
-                fill="clear" 
-                size="small" 
-                (click)="editarEstudiante(estudiante)"
-                class="btn-accion"
-              >
-              
+              <ion-button fill="clear" size="small" (click)="editarEstudiante(estudiante)">
                 <ion-icon slot="icon-only" name="create-outline"></ion-icon>
               </ion-button>
             </td>
@@ -61,9 +54,26 @@
         </tbody>
       </table>
 
-      <!-- Mensaje cuando no hay resultados -->
+      <!-- ❌ No resultados -->
       <div *ngIf="estudiantesFiltrados.length === 0" class="no-resultados">
         <p>No se encontraron estudiantes</p>
+      </div>
+
+      <!-- 📄 Paginado -->
+      <div class="paginacion" *ngIf="totalPaginas > 1">
+        <button (click)="irPrimera()" [disabled]="paginaActual === 1">«</button>
+        <button (click)="paginaAnterior()" [disabled]="paginaActual === 1">‹</button>
+
+        <button 
+          *ngFor="let pagina of paginasArray"
+          [class.activa]="paginaActual === pagina"
+          (click)="irPagina(pagina)"
+        >
+          {{ pagina }}
+        </button>
+
+        <button (click)="paginaSiguiente()" [disabled]="paginaActual === totalPaginas">›</button>
+        <button (click)="irUltima()" [disabled]="paginaActual === totalPaginas">»</button>
       </div>
     </div>
   </div>

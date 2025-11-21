@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { AlertService } from 'src/app/shared/alert-service';
+import { Combo } from 'src/app/modelos/LoginResponse';
 
 @Component({
   selector: 'app-registrar-prestamo',
@@ -15,10 +16,10 @@ import { AlertService } from 'src/app/shared/alert-service';
 })
 export class RegistrarPrestamoComponent implements OnInit {
 
-  alumnos: any[] = [];
+  alumnos: Combo[] = [];
   alumnosFiltrados: any[] = [];
 
-  libros: any[] = [];
+  libros: Combo[] = [];
   librosFiltrados: any[] = [];
 
   buscarAlumno = '';
@@ -53,48 +54,28 @@ export class RegistrarPrestamoComponent implements OnInit {
   }
 
   cargarAlumnos() {
-    this.servicio.obtenerEstudiantes().subscribe({
+    this.servicio.obtenerEstudiantesA().subscribe({
       next: (resp) => {
+
+        console.log(resp, "this.alumnos")
         this.alumnos = resp;
-        this.alumnosFiltrados = [...resp];
       }
     });
   }
 
   cargarLibros() {
-    this.servicio.obtenerLibros().subscribe({
+    this.servicio.obtenerLibrosA().subscribe({
       next: (resp) => {
         this.libros = resp;
-        this.librosFiltrados = [...resp];
       }
     });
   }
 
-  filtrarAlumnos(term: string) {
-    const texto = term.toLowerCase();
-    this.alumnosFiltrados = this.alumnos.filter(a =>
-      `${a.nombre} ${a.apellidoPaterno} ${a.apellidoMaterno}`
-        .toLowerCase()
-        .includes(texto)
-    );
-  }
-
-  filtrarLibros(term: string) {
-    const texto = term.toLowerCase();
-    this.librosFiltrados = this.libros.filter(l =>
-      l.titulo.toLowerCase().includes(texto)
-    );
-  }
 
   cerrarModal() {
     this.modalCtrl.dismiss();
   }
-
-  // ========================================
-  // 🚀 REGISTRAR PRÉSTAMO
-  // ========================================
  aceptar() {
-  // Validación rápida
   if (
     !this.prestamo.alumnoId ||
     !this.prestamo.libroId ||
@@ -121,12 +102,9 @@ export class RegistrarPrestamoComponent implements OnInit {
     },
     error: (err) => {
 
-      // ===========================
-      // Mostrar mensaje real del backend
-      // ===========================
       const mensajeBackend =
-        err?.error?.error ||        // El mensaje que manda tu API
-        err?.message ||             // Fallback
+        err?.error?.error ||       
+        err?.message ||            
         'Ocurrió un error al registrar el préstamo';
 
       this.alerta.show(

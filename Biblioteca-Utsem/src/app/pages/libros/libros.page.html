@@ -2,20 +2,28 @@
   <div class="contenedor">
     <h1 class="titulo">LIBROS REGISTRADOS</h1>
 
+    <!-- BARRA DE BÚSQUEDA -->
     <div class="barra-busqueda">
-      <ion-input placeholder="Buscar libro..." class="input-buscar"></ion-input>
-      <ion-button >Buscar</ion-button>
-      <ion-button  >Limpiar</ion-button>
-      <ion-button   (click)="nuevoLibro()">+ Nuevo</ion-button>
+      <ion-input 
+        placeholder="Buscar libro..." 
+        [(ngModel)]="searchTerm"
+        class="input-buscar">
+      </ion-input>
+
+      <ion-button (click)="buscar()">Buscar</ion-button>
+      <ion-button (click)="limpiar()">Limpiar</ion-button>
+
+      <ion-button  (click)="nuevoLibro()">+ Nuevo</ion-button>
     </div>
 
+    <!-- TABLA -->
     <div class="tabla-contenedor">
       <table>
         <thead>
           <tr>
             <th>TITULO</th>
             <th>AUTOR(ES)</th>
-            <th>AÑO PUBLICACIÒN</th>
+            <th>AÑO PUBLICACIÓN</th>
             <th>EDITORIAL</th>
             <th>DISPONIBILIDAD</th>
             <th>ESTATUS</th>
@@ -23,22 +31,41 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let e of libros; let i = index" [class.par]="i % 2 === 0">
+          <tr *ngFor="let e of librosPaginados; let i = index" [class.par]="i % 2 === 0">
             <td>{{ e.titulo }}</td>
-            <td>{{ e.autores }}</td>
+            <td>{{ e.autores.join(', ') }}</td>
             <td>{{ e.anioPublicacion }}</td>
             <td>{{ e.editorial }}</td>
             <td>{{ e.copiasDisponibles }}</td>
             <td>{{ e.estatus }}</td>
-             <td class="acciones">
-          <!-- Íconos de Ionic -->
-          <ion-icon name="create-outline" style="cursor:pointer; margin-right: 10px;"   (click)="editarLibro(e)"></ion-icon>
-          <ion-icon name="trash-outline"  style="cursor:pointer;"></ion-icon>
-        </td>
+            <td class="acciones">
+              <ion-icon 
+                name="create-outline" 
+                style="cursor:pointer; margin-right: 10px;"   
+                (click)="editarLibro(e)">
+              </ion-icon>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <!-- PAGINACIÓN -->
+    <div class="paginacion" *ngIf="totalPaginas > 1">
+      <button (click)="irPrimera()" [disabled]="paginaActual === 1">«</button>
+      <button (click)="paginaAnterior()" [disabled]="paginaActual === 1">‹</button>
+
+      <button 
+        *ngFor="let pagina of paginasArray"
+        [class.activa]="paginaActual === pagina"
+        (click)="irPagina(pagina)">
+        {{ pagina }}
+      </button>
+
+      <button (click)="paginaSiguiente()" [disabled]="paginaActual === totalPaginas">›</button>
+      <button (click)="irUltima()" [disabled]="paginaActual === totalPaginas">»</button>
+    </div>
+
   </div>
 </ion-content>
 

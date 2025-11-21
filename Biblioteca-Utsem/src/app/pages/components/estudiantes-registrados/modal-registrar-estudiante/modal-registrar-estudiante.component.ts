@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { AlertService } from 'src/app/shared/alert-service';
 import { SerivicosService } from 'src/app/Servicios/serivicos-service';
-import { Carrera, Estudiante } from 'src/app/modelos/LoginResponse';
+import { Carrera, Combo, Estudiante } from 'src/app/modelos/LoginResponse';
 
 @Component({
   selector: 'app-modal-registrar-estudiante',
@@ -27,7 +27,7 @@ export class ModalRegistrarEstudianteComponent implements OnInit {
     estatus: 'ACTIVO'
   };
 
-  carreras: Carrera[] = [];
+  carreras: Combo[] = [];
 
   constructor(
     private modalController: ModalController,
@@ -39,9 +39,10 @@ export class ModalRegistrarEstudianteComponent implements OnInit {
   }
 
   cargarCarreras() {
-    this.estudiantesService.obtenerCarreras().subscribe({
+    this.estudiantesService.obtenerCarrerasA().subscribe({
       next: (data) => {
         this.carreras = data;
+        console.log( this.carreras, " this.carreras")
       },
       error: (err) => {
         console.error('Error al cargar carreras:', err);
@@ -78,8 +79,10 @@ export class ModalRegistrarEstudianteComponent implements OnInit {
             this.modalController.dismiss({ estudiante: resp });
           },
           error: (err) => {
-            console.error('Error al actualizar estudiante:', err);
-            this.alertService.show('Error al actualizar el estudiante', 'danger', 'Error');
+            if(err.status==500){
+            this.alertService.show(err.error.error, 'danger', 'Error');
+
+            }
           }
         });
     } else {
@@ -95,8 +98,10 @@ export class ModalRegistrarEstudianteComponent implements OnInit {
             this.modalController.dismiss({ estudiante: resp });
           },
           error: (err) => {
-            console.error('Error al registrar estudiante:', err);
-            this.alertService.show('Error al registrar el estudiante', 'danger', 'Error');
+            if(err.status==500){
+            this.alertService.show(err.error.error, 'danger', 'Error');
+
+            }
           }
         });
     }
@@ -104,6 +109,6 @@ export class ModalRegistrarEstudianteComponent implements OnInit {
 
   private obtenerCarreraNombre(carreraId: string): string {
     const carrera = this.carreras.find(c => c.id === carreraId);
-    return carrera ? carrera.nombre : '';
+    return carrera ? carrera.titulo : '';
   }
 }
