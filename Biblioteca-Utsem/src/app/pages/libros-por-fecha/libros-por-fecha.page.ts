@@ -33,7 +33,7 @@ export class LibrosPorFechaPage implements OnInit {
     this.service.obtenerTop10Fechas().subscribe({
       next: (data: PrestamoFecha[]) => {
       this.loadingService.hide();
-        const labels = data.map(x => `${x.libro}\n${x.fecha}`);
+        const labels = data.map(x => `${x.fecha}`);
         const totales = data.map(x => x.totalPrestamos);
 
         const colores = totales.map(() =>

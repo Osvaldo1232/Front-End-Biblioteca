@@ -129,7 +129,6 @@ export interface PrestamoRespuesta {
 
 
 export interface PrestamoFecha {
-  libro: string;
   fecha: string;
   totalPrestamos: number;
 }
