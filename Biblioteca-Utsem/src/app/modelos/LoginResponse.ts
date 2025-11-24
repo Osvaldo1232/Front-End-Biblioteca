@@ -138,3 +138,9 @@ export interface TopLibros {
   nombreLibro: string;
   totalPrestamos: number;
 }
+
+export interface UsuarioInfo {
+  nombre: string;
+  nombreCompleto: string;
+  rol: string;
+}

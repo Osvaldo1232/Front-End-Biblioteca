@@ -246,3 +246,15 @@ header {
     pointer-events: auto;
   }
 }
+
+
+.sidebar {
+  width: 250px;
+  background-color: #2d0404;
+  color: white;
+  transition: transform 0.3s ease-in-out;
+  flex-shrink: 0;
+  height: calc(100vh - 60px); /* ALTURA EXACTA BAJO EL HEADER */
+  overflow-y: auto;          /* ← ACTIVAMOS EL SCROLL VERTICAL */
+  overflow-x: hidden;
+}

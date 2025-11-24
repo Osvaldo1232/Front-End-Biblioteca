@@ -5,19 +5,19 @@
   </div>
 
   <div class="header-center">
-    <img src="assets/usuario.jpg" alt="UTSEM" class="logo-utsem" />
+    <img src="assets/logoutsem.png" alt="UTSEM" class="logo-utsem" />
   </div>
 
-  <div class="header-right">Juan  </div>
+  <div class="header-right">{{usuarios?.nombreCompleto}}  </div>
 </header>
 
 <div class="layout">
   <!-- SIDEBAR -->
   <nav class="sidebar" [class.show]="sidebarVisible">
     <div class="profile-section">
-      <img src="assets/usuario.jpg" alt="Perfil" class="profile-image" />
-      <p class="profile-name">Juan</p>
-      <p class="profile-role">Administrador</p>
+      <img src="assets/logous.png" alt="Perfil" class="profile-image" />
+      <p class="profile-name">{{usuarios?.nombre}}</p>
+      <p class="profile-role">{{usuarios?.rol}}</p>
     </div>
 
     <ul>

@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Autor, Carrera, Categoria, Combo, Estudiante, Libro, Libros, LoginResponse, Prestamo, PrestamoCre, PrestamoCrear, PrestamoFecha, PrestamoRespuesta, TopLibros } from '../modelos/LoginResponse';
+import { Autor, Carrera, Categoria, Combo, Estudiante, Libro, Libros, LoginResponse, Prestamo, PrestamoCre, PrestamoCrear, PrestamoFecha, PrestamoRespuesta, TopLibros, UsuarioInfo } from '../modelos/LoginResponse';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,13 +14,15 @@ private apiUrl = 'http://localhost:8000/prestamos';
  private baseUrP = 'http://localhost:8000/prestamos/detalles';
 
  private baseUrlLI = 'http://localhost:8000/libros';
-
+  private apiusuario = 'http://localhost:8000/usuarios';
  private baseUrlc = 'http://localhost:8000/carreras';
  private baseUrlA = 'http://localhost:8000/alumnos';
  private baseUrlC = 'http://localhost:8000/categorias';
  private baseUrlAu = 'http://localhost:8000/autores';
 
-
+obtenerUsuarioLogueado(id: string): Observable<UsuarioInfo> {
+    return this.http.get<UsuarioInfo>(`${this.apiusuario}/loguedo/${id}`);
+  }
  crearCarrera(carrera: Carrera): Observable<Carrera> {
   return this.http.post<Carrera>(`${this.baseUrlc}`, carrera);
 }
@@ -58,14 +60,24 @@ actualizarCarrera(id: string, carrera: Carrera): Observable<Carrera> {
       .pipe(
         tap(res => {
           localStorage.setItem('token', res.token);
+          localStorage.setItem('uuid', res.uuid);
+
           localStorage.setItem('rol', res.rol);
         })
       );
   }
 
+   
+
+    logueado(): string | null {
+    return localStorage.getItem('uuid');
+  }
+
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('rol');
+    localStorage.removeItem('uuid');
+
     this.router.navigate(['/home']);
   }
 
