@@ -32,7 +32,15 @@ export const routes: Routes = [
     path: 'autores', 
     loadComponent: () => import('./pages/autores-component/autores-component.component')
       .then(m => m.AutoresComponentComponent) 
+  },{
+    path: 'libros-por-fecha',
+    loadComponent: () => import('./pages/libros-por-fecha/libros-por-fecha.page').then( m => m.LibrosPorFechaPage)
+  },
+  {
+    path: 'libros-mas-prestados',
+    loadComponent: () => import('./pages/libros-mas-prestados/libros-mas-prestados.page').then( m => m.LibrosMasPrestadosPage)
   }
     ]
   }
+  
 ];

@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Autor, Carrera, Categoria, Combo, Estudiante, Libro, Libros, LoginResponse, Prestamo, PrestamoCre, PrestamoCrear, PrestamoRespuesta } from '../modelos/LoginResponse';
+import { Autor, Carrera, Categoria, Combo, Estudiante, Libro, Libros, LoginResponse, Prestamo, PrestamoCre, PrestamoCrear, PrestamoFecha, PrestamoRespuesta, TopLibros } from '../modelos/LoginResponse';
 @Injectable({
   providedIn: 'root'
 })
@@ -168,5 +168,13 @@ actualizarCarrera(id: string, carrera: Carrera): Observable<Carrera> {
     if (estatus) params = params.set('estatus', estatus);
 
     return this.http.get(`${this.apiUrl}/buscar`, { params });
+  }
+
+   obtenerTop10Fechas(): Observable<PrestamoFecha[]> {
+    return this.http.get<PrestamoFecha[]>(`${this.apiUrl}/top10-fechas`);
+  }
+
+   obtenerTop10Libros(): Observable<TopLibros[]> {
+    return this.http.get<TopLibros[]>(`${this.apiUrl}/top10-libros`);
   }
 }

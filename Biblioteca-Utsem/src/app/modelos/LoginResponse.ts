@@ -126,3 +126,15 @@ export interface PrestamoRespuesta {
   fechaDevolucion: string;
   estatus: string;
 }
+
+
+export interface PrestamoFecha {
+  libro: string;
+  fecha: string;
+  totalPrestamos: number;
+}
+
+export interface TopLibros {
+  nombreLibro: string;
+  totalPrestamos: number;
+}
