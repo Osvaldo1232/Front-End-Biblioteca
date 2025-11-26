@@ -1,14 +1,24 @@
-  <ion-header>
-    <ion-toolbar>
-      <ion-title> Libros Préstamos por Fecha</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <ion-content>
-    <div class="scroll-x">
-      <div class="grafica-wrapper">
-        <canvas #barCanvas></canvas>
-      </div>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Libros Préstamos por Fecha</ion-title>
+
+    <!-- BOTÓN PARA EXPORTAR PDF -->
+    <ion-buttons slot="end">
+      <ion-button (click)="exportarPDF()">
+        <ion-icon name="download-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="scroll-x">
+    <div class="grafica-wrapper" #graficaContainer>
+      <canvas #barCanvas></canvas>
     </div>
-  </ion-content>
+  </div>
+</ion-content>
+
 <app-loading></app-loading>

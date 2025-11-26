@@ -143,3 +143,19 @@ export interface UsuarioInfo {
   nombreCompleto: string;
   rol: string;
 }
+
+
+export interface UsuarioDa {
+  id: string;
+  nombre: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  email: string;
+  password: string;
+  rol: string;               
+  fechaNacimiento: string;   
+  sexo: string;             
+  estatus: string;          
+  departamento: string;
+  telefono: string;
+}

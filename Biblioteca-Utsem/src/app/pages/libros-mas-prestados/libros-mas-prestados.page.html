@@ -1,16 +1,22 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Libros más prestados</ion-title>
+    <ion-title>Libros más Préstamos</ion-title>
+
+    <!-- BOTÓN PARA EXPORTAR PDF -->
+    <ion-buttons slot="end">
+      <ion-button (click)="exportarPDF()">
+        <ion-icon name="download-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div class="scroll-x">
-    <div class="grafica-wrapper">
+    <div class="grafica-wrapper" #graficaContainer>
       <canvas #barCanvas></canvas>
     </div>
   </div>
 </ion-content>
-
 
 <app-loading></app-loading>

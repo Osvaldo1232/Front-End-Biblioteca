@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { SerivicosService } from 'src/app/Servicios/serivicos-service';
 import { AuthStateService } from 'src/app/Servicios/auth-state-service';
-import { UsuarioInfo } from 'src/app/modelos/LoginResponse';
+import { UsuarioDa, UsuarioInfo } from 'src/app/modelos/LoginResponse';
 
 @Component({
   selector: 'app-inicio',
@@ -17,7 +17,7 @@ export class InicioPage implements OnInit {
   sidebarVisible: boolean = true;
   isMobile: boolean = false;
 logueado:any;
-usuarios!: UsuarioInfo;
+usuarios!: UsuarioDa;
   usuario:any;
   constructor(private router: Router, private loginService: SerivicosService, private authState: AuthStateService ) {}
 
@@ -28,7 +28,6 @@ this.logueado=this.loginService.logueado();
      this.loginService.obtenerUsuarioLogueado(this.logueado).subscribe({
       next: (data) => {
         this.usuarios = data;
-        console.log("Usuario:", data);
       }
     });
   }

@@ -160,9 +160,12 @@ async cambiarEstado(carrera: Carrera) {
 this.loadingService.hide();
 
       },
+      
       error: (err) => {
 this.loadingService.hide();
       }
     });
+this.loadingService.hide();
+
   }
 }

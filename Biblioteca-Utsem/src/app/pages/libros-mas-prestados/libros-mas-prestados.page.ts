@@ -1,21 +1,23 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader,IonIcon, IonTitle, IonToolbar , IonButtons, IonButton} from '@ionic/angular/standalone';
 import Chart from 'chart.js/auto';
 import { SerivicosService } from 'src/app/Servicios/serivicos-service';
 import { TopLibros } from 'src/app/modelos/LoginResponse';
 import { Loading } from 'src/app/shared/loading/loading';
 import { LoadingService } from 'src/app/shared/loading-service';
-
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas'; 
 @Component({
   selector: 'app-libros-mas-prestados',
   templateUrl: './libros-mas-prestados.page.html',
   styleUrls: ['./libros-mas-prestados.page.scss'],
   standalone: true,
-  imports: [Loading, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [Loading, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonIcon]
 })
 export class LibrosMasPrestadosPage implements OnInit {
+@ViewChild('graficaContainer', { static: false }) graficaContainer!: ElementRef;
 
   @ViewChild('barCanvas', { static: false }) barCanvas!: ElementRef;
   barChart: any;
@@ -75,9 +77,16 @@ this.loadingService.hide();
               backgroundColor: colores
             }]
           },
+
           options: {
             responsive: true,
             maintainAspectRatio: false,
+
+             layout: {
+      padding: {
+        top: 70 // Más espacio arriba
+      }
+    },
             plugins: {
               legend: { display: false },
               tooltip: { enabled: true }
@@ -103,4 +112,33 @@ this.loadingService.hide();
     });
   }
 
+
+  async exportarPDF() {
+  const element = this.graficaContainer.nativeElement;
+
+  // Convertir a imagen usando html2canvas
+  const canvas = await html2canvas(element, {
+    scale: 3, // mayor resolución
+    useCORS: true
+  });
+
+  const imgData = canvas.toDataURL('image/png');
+
+  // Crear PDF en formato vertical tamaño carta
+  const pdf = new jsPDF({
+    orientation: 'landscape',
+    unit: 'px',
+    format: 'a4'
+  });
+
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+
+  // Ajustar imagen para que llene toda la hoja
+  pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight);
+
+  pdf.save('grafica-prestamos.pdf');
 }
+
+}
+

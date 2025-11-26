@@ -155,7 +155,7 @@ async editarLibro(libro: Libro) {
     const { data } = await modal.onWillDismiss();
 
     if (data && data.libro) {
-      this.libros.push(data.libro);
+      this.cargarLibros();
       this.buscar();
     }
   }
